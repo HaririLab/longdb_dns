@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import include, path
 from longdb_dns.forms import LoginForm
 from django.contrib.auth.views import login, logout
-
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
+    path('', TemplateView.as_view(template_name='home.html'),name="home"),
     path('admin/', admin.site.urls),
     path('getdata/', include('getdata.urls')),
     path('checkSNP/', include('checkSNP.urls')),

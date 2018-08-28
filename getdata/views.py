@@ -15,10 +15,10 @@ from .forms import SelectionForm, SelectionForm_Battery, SelectionForm_Imaging, 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
     
-@login_required(login_url="/login/")
-def home(request):
-	# return render(request, "home.html", {'subjects': Subject.objects.all()})
-	return render(request, "home.html")
+# @login_required(login_url="/login/")
+# def home(request):
+# 	# return render(request, "home.html", {'subjects': Subject.objects.all()})
+# 	return render(request, "home.html")
 
 @login_required(login_url="/login/")
 def select(request):
@@ -37,7 +37,7 @@ def select(request):
 			if form.cleaned_data['useAge']:
 				fields.append('age')	
 			
-			subjects = Subject.objects.all().order_by('dns_id')[0:10] #[0:10]	########## i guess i get rid of this and just prefetch from each table with the same base query?!?!? wait actually i need subjects to prepopulate blank array; maybe i can make it a queryset or something that i use for each of the following
+			subjects = Subject.objects.all().order_by('dns_id') #[0:10]	########## i guess i get rid of this and just prefetch from each table with the same base query?!?!? wait actually i need subjects to prepopulate blank array; maybe i can make it a queryset or something that i use for each of the following
 
 			vars_day1=[]
 			fields_day1=[]

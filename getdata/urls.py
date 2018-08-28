@@ -7,9 +7,9 @@ app_name = 'getdata'
 
 urlpatterns = [
     # ex: /getdata/
-    path('', views.home, name='index'),
+    #path('', views.home, name='index'),
     # ex: /getdata/select/
-    path('select/', views.select, name='select'),
+    path('', views.select, name='select'),
   
     
 ]

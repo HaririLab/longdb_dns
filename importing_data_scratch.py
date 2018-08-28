@@ -4,7 +4,7 @@
 # SNP details
 import csv, math
 from getdata.models import SNP, Subject, Genotype
-with open('../plink.frq.csv',newline='') as f:
+with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/plink.frq.csv',newline='') as f:
 	reader=csv.reader(f)
 	row1=next(reader)
 	for row in reader:
