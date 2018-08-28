@@ -1,0 +1,42 @@
+{% extends "base_generic.html" %}
+{% load bootstrap %}
+
+{% block content %}
+<h2>Select data to pull from database</h2>
+<form action="" method="post">
+    {% csrf_token %}
+<br />
+<h4>Demographics:</h4>
+    {{ form|bootstrap }}
+<br />
+
+<span style="float:left; padding-right:25px;">
+<h4>Day 1 Variables:</h4>
+    {{ form_day1 }}
+</span>
+  
+<span style="float:left; padding-right:25px;">
+<h4>Battery Variables:</h4>
+    {{ form_bat }}
+</span>
+
+<h4>Imaging Variables:</h4>
+    {{ form_img }}
+
+<br />
+<br />
+
+<h4>SNPs:</h4>
+<p>Enter rs id(s), e.g. rs1234 (one per line)</p>
+    {{ form_snp }}
+<br />
+<br />
+<br />
+    <input type="submit" name="action" value="Preview" /> <input type="submit" name="action" value="Write CSV" />
+
+</form>
+
+<br />
+<br />
+<br />
+{% endblock %}

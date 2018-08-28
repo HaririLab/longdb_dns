@@ -1,0 +1,34 @@
+{% extends "base_generic.html" %}
+{% load getdata_extras %}
+{% block content %}
+<h1>SNP Info</h1>
+
+
+<div class="container-fluid">
+<table class="table">
+
+<thead class="thead-inverse">
+<tr>
+<th>rs ID</th>
+<th>chromosome</th>
+<th>Minor allele</th>
+<th>Major allele</th>
+<th>MAF</th>
+<th>Percentage of subjects</th>
+</tr>
+</thead>
+
+{% for snp in snps %}
+<tr>
+<td>{{snp.rs_id}}</td>  
+<td>{{snp.chr_id}}</td>  
+<td>{{snp.a1}}</td>  
+<td>{{snp.a2}}</td> 
+<td>{{snp.MAF}}</td>  
+<td>{{snp.nchrobs}}</td>  
+</tr>
+{% endfor %}
+
+</table>
+</div>
+{% endblock %}

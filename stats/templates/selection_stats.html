@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>Select two variables to compare</h2>
+<form action="" method="post">
+    {% csrf_token %}
+<h4>Battery Variables:</h4>
+	<table>
+    {{ form_bat }}
+    </table>   
+
+<br />
+<h4>SNPs:</h4>
+<p>Enter rs id(s), e.g. rs1234</p>
+	<table>
+    {{ form_snp }}
+    </table>   
+<br />
+
+    <input type="submit" name="action" value="Preview" /> 
+</form>
+{% endblock %}

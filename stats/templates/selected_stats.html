@@ -1,0 +1,31 @@
+{% extends "base_generic.html" %}
+<!--   <link href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css" rel="stylesheet" type="text/css">
+  <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.4.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.css" type="text/css" />
+  <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js"></script>
+  <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.4.min.js"></script> -->
+
+
+{% block content %}
+
+
+<table>
+	<tr><th>{{field_snp}} genotype</th><th>Number of subjects</th></tr>
+	<tr><td>{{alleles.0}}</td><td>{{counts.0}}</td></tr>
+	<tr><td>{{alleles.1}}</td><td>{{counts.1}}</td></tr>
+	<tr><td>{{alleles.2}}</td><td>{{counts.2}}</td></tr>
+</table>
+
+{{ chart.as_html }}	
+
+
+<!-- 	<p>
+	{{ div|safe }}
+<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.4.min.js"></script>
+    {{ script|safe }}
+</p> -->
+
+{% endblock %}
+
+
+

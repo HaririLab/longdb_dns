@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h2>Select SNPs to get info about</h2>
+<p>This application searches through DNS genotype data (but NOT imputed data at this time) for the requested SNP(s) and outputs information on those that are present in the data set.</p>
+<form action="" method="post">
+
+{% csrf_token %}
+
+<p>Enter rs id(s), e.g. rs1234 (one per line)</p>
+	<table>
+    {{ form_snp }}
+    </table>   
+<br />
+
+    <input type="submit" name="action" value="Submit" /> 
+</form>
+
+{% endblock %}

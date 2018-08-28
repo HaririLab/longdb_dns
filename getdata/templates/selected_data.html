@@ -1,0 +1,53 @@
+{% extends "base_generic.html" %}
+{% load getdata_extras %}
+{% block content %}
+<h2>Selected Data</h2>
+
+<div class="container-fluid">
+<table class="table">
+
+<thead class="thead-inverse">
+<tr>
+<th>DNSID</th>
+{% for f in fields %}
+	<th>{{f}}</th>
+{% endfor %}
+{% for f in fields_day1 %}
+	<th>{{f}}</th>
+{% endfor %}
+{% for f in fields_bat %}
+	<th>{{f}}</th>
+{% endfor %}
+{% for f in fields_img %}
+	<th>{{f}}</th>
+{% endfor %}
+{% for f in fields_snp %}
+	<th>{{f}}</th>
+{% endfor %}
+</tr>
+</thead>
+
+{% for subj,vals_day1,vals_bat,vals_img,genos in subj_data_tuples %}
+<tr>
+<td>{{subj.dns_id}}</td>  
+	{% for f in fields %}
+		<td> {{ subj|getattribute:f }} </td>
+	{% endfor %}
+	{% for v in vals_day1 %}
+		<td> {{ v.value }} </td>
+	{% endfor %}
+	{% for v in vals_bat %}
+		<td> {{ v.value }} </td>
+	{% endfor %}
+	{% for v in vals_img %}
+		<td> {{ v.value }} </td>
+	{% endfor %}
+	{% for g in genos %}
+		<td> {{ g.genotype }} </td>
+	{% endfor %}	
+</tr>
+{% endfor %}
+
+</table>
+</div>
+{% endblock %}
