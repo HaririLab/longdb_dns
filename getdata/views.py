@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from decimal import *
 from functools import reduce
 from django.db.models import Q, Prefetch
-from getdata.more_functions import get_img_subvars, get_day1_subvars
+from getdata.more_functions import get_img_subvars, get_day1_subvars, get_bat_subvars
 
 from .models import TypedSNP, Subject, SNP, Genotype, BatteryVariable, BatteryValue, ImagingVariable, ImagingValue, Day1Variable, Day1Value
 from .forms import SelectionForm, SelectionForm_Battery, SelectionForm_Imaging, SelectionForm_SNP, SelectionForm_Day1
@@ -64,8 +64,9 @@ def select(request):
 			vars_bat=[]
 			fields_bat=[]
 			for requested_var in form_bat.cleaned_data['battery_selections']:
-				vars_bat.append(BatteryVariable.objects.get(var_name=requested_var))  
-				fields_bat.append(requested_var)
+				for subvar in get_bat_subvars(requested_var):
+					vars_bat.append(BatteryVariable.objects.get(var_name=subvar))  
+					fields_bat.append(subvar)
 			# much faster!
 			if(len(vars_bat)>0):
 				subjects_bat=subjects.prefetch_related(  # filter(gender='F').

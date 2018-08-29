@@ -2,6 +2,7 @@
 ## python3 manage.py shell
 
 # SNP details
+# this will probably taken an hour or so
 import csv, math
 from getdata.models import SNP, Subject, Genotype
 with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/plink.frq.csv',newline='') as f:
@@ -82,12 +83,16 @@ with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/BATTERY_SC
 
 
 
-# faces data
+# faces or cards data
+## ##Variable names (column headings) MUST be of the format Task_Contrast_ROI!!!!!!!!
 import datetime, csv
-with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/Hammer.csv',newline='') as f:
+from decimal import Decimal
+from getdata.models import Subject, ImagingVariable, ImagingValue
+with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/cards.csv',newline='') as f:
 	reader=csv.reader(f)
 	row1=next(reader)
 	for row in reader:
+		print(row[0])
 		s,c=Subject.objects.get_or_create(dns_id=row[0])
 		# print(row[0])
 		for i in range(1,len(row1)):
@@ -98,6 +103,7 @@ with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/Hammer.csv
 				g=ImagingValue.objects.create(subject=s,variable=r,value=None)			
 
 # fill in NULL img values
+### MUST run this if the csv file used for importing imaging data only includes subjects with good data
 subjects=Subject.objects.all()
 imgvars=ImagingVariable.objects.all()
 for s in subjects:
@@ -106,26 +112,4 @@ for s in subjects:
 		found=ImagingValue.objects.filter(subject=s,variable=v)
 		if found.count() == 0:
 			ImagingValue.objects.create(subject=s,variable=v,value=None)
-
-
-from functools import reduce
-from django.db.models import Q, Prefetch
-from getdata.models import ImagingValue,ImagingVariable
-vars_img=[]
-fields_img=[]
-requested_vars=('Cards_NegGrCtrl_LVS_clust','Cards_NegGrCtrl_LVS_vox','Cards_PosGrCtrl_LVS_clust','Cards_PosGrCtrl_LVS_vox')
-for requested_var in requested_vars:
-	vars_img.append(ImagingVariable.objects.get(var_name=requested_var))  
-	fields_img.append(requested_var)
-if(len(vars_img)>0):
-	subjects_img=subjects.prefetch_related(  # filter(gender='F').
-	    Prefetch(
-	            'imgval',
-	            queryset=ImagingValue.objects.filter(reduce(lambda x, y: x | y, [Q(variable=v) for v in vars_img])),
-	            to_attr='imgvals'
-	    )
-	)	
-	indices=[fields_img.index(subjects_img[0].imgvals[i].variable_id) for i in range(0,len(vars_img))]
-	vals_img=[list(s.imgvals[i] for i in indices) for s in subjects_img] 
-
 

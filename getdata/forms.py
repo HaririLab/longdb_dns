@@ -9,24 +9,14 @@ class SelectionForm(forms.Form):
 
 
 class SelectionForm_Imaging(forms.Form):
-	names=['Hammer_AngerFearGrNeutral_Amunts','Hammer_AngerFearGrNeutral_AALwholeAmygdala',
-		'Hammer_AngerFearGrShapes_Amunts','Hammer_AngerFearGrShapes_AALwholeAmygdala',
-		'Hammer_Habit1gr2gr3gr4_Amunts','Hammer_Habit1gr2gr3gr4_AALwholeAmygdala',
-		'Hammer_FearGrNeutral_Amunts','Hammer_FearGrNeutral_AALwholeAmygdala',
-		'Hammer_AngerGrNeutral_Amunts','Hammer_AngerGrNeutral_AALwholeAmygdala',
-		'Hammer_SurpriseGrShapes_Amunts','Hammer_SurpriseGrShapes_AALwholeAmygdala',
-		'Hammer_NeutralGrShapes_Amunts','Hammer_NeutralGrShapes_AALwholeAmygdala',
-		'Hammer_AngerGrShapes_Amunts','Hammer_AngerGrShapes_AALwholeAmygdala',
-		'Hammer_FearGrShapes_Amunts','Hammer_FearGrShapes_AALwholeAmygdala',
-		'Hammer_FacesGrShapes_Amunts','Hammer_FacesGrShapes_AALwholeAmygdala',
-		'Cards_NegGrCtrl_VS','Cards_PosGrCtrl_VS','Cards_PosGrNeg_VS',	
-		]
+	fullnames=[v.var_name.split('_',2)[0]+'_'+v.var_name.split('_',2)[1] for v in ImagingVariable.objects.all()] # use split to pull only the measure name
+	names=sorted(set(fullnames)) # get unique entries (i.e. one for each measure)
 	OPTIONS=zip(names,names)
 	imaging_selections = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'size':10,'cols':30}),choices=OPTIONS,required=False,label='')	
 
 class SelectionForm_Battery(forms.Form):
-	#names=['']
-	names=[v.var_name for v in BatteryVariable.objects.all()]
+	fullnames=[v.var_name.split('_',1)[0] for v in BatteryVariable.objects.all()] # use split to pull only the measure name
+	names=sorted(set(fullnames)) # get unique entries (i.e. one for each measure)
 	OPTIONS=zip(names,names)
 	battery_selections = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'size':10,'cols':15}),choices=OPTIONS,required=False,label='')	
 

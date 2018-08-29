@@ -1,31 +1,25 @@
+from .models import BatteryVariable, ImagingVariable, Day1Variable
+
 # Takes the name of an imaging variable in the form of Task_Contrast_ROI
 def get_img_subvars(var):
-	task,con,roi=var.split('_')
-	basename=task+'_'+con+'_'
 	varlist=[]
-	if roi == 'Amunts':
-		varlist.append(basename+'LCM_Clust')
-		varlist.append(basename+'LCM_Vox')
-		varlist.append(basename+'RCM_Clust')
-		varlist.append(basename+'RCM_Vox')
-		varlist.append(basename+'LLB_Clust')
-		varlist.append(basename+'LLB_Vox')
-		varlist.append(basename+'RLB_Clust')
-		varlist.append(basename+'RLB_Vox')
-	elif roi == 'AALwholeAmygdala':
-		varlist.append(basename+'LAmy_Clust')
-		varlist.append(basename+'LAmy_Vox')
-		varlist.append(basename+'RAmy_Clust')
-		varlist.append(basename+'RAmy_Vox')
-	elif roi == 'VS':
-		varlist.append(basename+'LVS_clust')
-		varlist.append(basename+'LVS_vox')
-		varlist.append(basename+'RVS_clust')
-		varlist.append(basename+'RVS_vox')		
-	else:
-		print('******** UNRECOGNIZED ROI *********')
+	allvars=ImagingVariable.objects.all()
+	for v in allvars:
+		if v.var_name.startswith(var):
+			varlist.append(v.var_name)
 
 	return varlist		
+
+# Takes the name of a battery variable 
+def get_bat_subvars(var):
+	varlist=[]
+	allvars=BatteryVariable.objects.all()
+	for v in allvars:
+		if v.var_name.startswith(var):
+			varlist.append(v.var_name)
+
+	return varlist
+
 
 # Takes the name of an day1 variable 
 def get_day1_subvars(var):
