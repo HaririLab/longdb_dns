@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 
-from getdata.models import TypedSNP, Subject, SNP, Genotype
+from getdata.models import Subject, SNP, Genotype
 from getdata.forms import SelectionForm_SNP
 
 @login_required(login_url="/login/")

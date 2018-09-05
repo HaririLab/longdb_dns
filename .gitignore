@@ -1,2 +1,8 @@
-db.dqlite3
-DataToIncorporate
+*.pyc
+*~
+__pycache__
+djangodev
+db.sqlite3
+.DS_Store
+longdb_dns/settings_secret.py
+DataToIncorporate/

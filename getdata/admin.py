@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Subject, ChromosomeID, TypedSNP, ImagingValue, BatteryValue, Genotype,SNP,ImagingVariable,BatteryVariable,Day1Value,Day1Variable
+from .models import Subject, ImagingValue, BatteryValue, Genotype,SNP,ImagingVariable,BatteryVariable,Day1Value,Day1Variable
 
 admin.site.register(Subject)
 admin.site.register(BatteryValue)

@@ -9,7 +9,7 @@ from functools import reduce
 from django.db.models import Q, Prefetch
 from getdata.more_functions import get_img_subvars, get_day1_subvars, get_bat_subvars
 
-from .models import TypedSNP, Subject, SNP, Genotype, BatteryVariable, BatteryValue, ImagingVariable, ImagingValue, Day1Variable, Day1Value
+from .models import Subject, SNP, Genotype, BatteryVariable, BatteryValue, ImagingVariable, ImagingValue, Day1Variable, Day1Value
 from .forms import SelectionForm, SelectionForm_Battery, SelectionForm_Imaging, SelectionForm_SNP, SelectionForm_Day1
 
 def index(request):

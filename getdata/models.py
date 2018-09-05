@@ -77,26 +77,3 @@ class Genotype(models.Model):
 
 	def __str__(self):
 		return self.subject.dns_id + '_' + self.SNP.rs_id
-
-
-class ImagingData(models.Model):
-	subject = models.OneToOneField(Subject,primary_key=True,related_name='imaging',on_delete=models.DO_NOTHING)
-	amygdala = models.IntegerField()
-	VS = models.IntegerField()
-
-class BatteryData(models.Model):
-	subject = models.OneToOneField(Subject,primary_key=True,related_name='battery',on_delete=models.DO_NOTHING)
-	NEOO = models.IntegerField()
-	NEOC = models.IntegerField()
-	NEOE = models.IntegerField()
-	NEOA = models.IntegerField()
-	NEON = models.IntegerField()
-
-class ChromosomeID(models.Model):
-	rs_id = models.CharField(max_length=20)
-	chr_id = models.IntegerField()
-	
-class TypedSNP(models.Model):
-	subject = models.ForeignKey(Subject,related_name='typedSNP',on_delete=models.DO_NOTHING)
-	chromosome = models.ForeignKey(ChromosomeID, related_name='typedSNP',on_delete=models.DO_NOTHING)
-	genotypes = models.TextField()
