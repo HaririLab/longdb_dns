@@ -7,28 +7,23 @@ from django.contrib.auth.decorators import login_required
 from decimal import *
 from functools import reduce
 from django.db.models import Q, Prefetch
-from getdata.more_functions import get_img_subvars, get_day1_subvars, get_bat_subvars
+from getdata.more_functions import run_query #get_img_subvars, get_day1_subvars, get_bat_subvars
 
 from .models import Subject, SNP, Genotype, BatteryVariable, BatteryValue, ImagingVariable, ImagingValue, Day1Variable, Day1Value
-from .forms import SelectionForm, SelectionForm_Battery, SelectionForm_Imaging, SelectionForm_SNP, SelectionForm_Day1
+from .forms import SelectionForm, SelectionForm_Battery, SelectionForm_SNP, SelectionForm_Day1, SelectionForm_Imaging
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
     
-# @login_required(login_url="/login/")
-# def home(request):
-# 	# return render(request, "home.html", {'subjects': Subject.objects.all()})
-# 	return render(request, "home.html")
-
 @login_required(login_url="/login/")
 def select(request):
 	if request.method == 'POST':
 		form = SelectionForm(request.POST)
-		form_day1 = SelectionForm_Day1(request.POST)
-		form_bat = SelectionForm_Battery(request.POST)
-		form_img = SelectionForm_Imaging(request.POST)
+		# form_day1 = SelectionForm_Day1(request.POST)
+		# form_bat = SelectionForm_Battery(request.POST)
+		# form_img = SelectionForm_Imaging(request.POST)
 		form_snp = SelectionForm_SNP(request.POST)
-		if form.is_valid() and form_bat.is_valid() and form_img.is_valid() and form_snp.is_valid() and form_day1.is_valid():
+		if form.is_valid() and form_snp.is_valid():
 			fields=[]
 			if form.cleaned_data['useGender']:
 				fields.append('gender')
@@ -39,71 +34,10 @@ def select(request):
 			
 			subjects = Subject.objects.all().order_by('dns_id') #[0:10]	########## i guess i get rid of this and just prefetch from each table with the same base query?!?!? wait actually i need subjects to prepopulate blank array; maybe i can make it a queryset or something that i use for each of the following
 
-			vars_day1=[]
-			fields_day1=[]
-			for requested_var in form_day1.cleaned_data['day1_selections']:
-				for subvar in get_day1_subvars(requested_var):
-					vars_day1.append(Day1Variable.objects.get(var_name=subvar))  
-					fields_day1.append(subvar)
-			if(len(vars_day1)>0):
-				subjects_day1=subjects.prefetch_related(  
-				    Prefetch(
-				            'day1val',
-				            queryset=Day1Value.objects.filter(reduce(lambda x, y: x | y, [Q(variable=v) for v in vars_day1])),
-				            to_attr='day1vals'
-				    )
-				)		
-				subjects_day1 = list(subjects_day1)
-				indices=[fields_day1.index(subjects_day1[0].day1vals[i].variable_id) for i in range(0,len(fields_day1))]
-				indices_rev=[indices.index(i) for i in range(0, len(indices))]
-				vals_day1=[[s.day1vals[i] for i in indices_rev] for s in subjects_day1]
-			else:
-				vals_day1=[[] for s in subjects] # need this for zip to work later	
+			fields_day1,vals_day1=run_query(request.POST.getlist('day1_selections'),"day1",subjects)			
+			fields_bat,vals_bat=run_query(request.POST.getlist('bat_selections'),"bat",subjects)			
+			fields_img,vals_img=run_query(request.POST.getlist('img_selections'),"img",subjects)
 
-
-			vars_bat=[]
-			fields_bat=[]
-			for requested_var in form_bat.cleaned_data['battery_selections']:
-				for subvar in get_bat_subvars(requested_var):
-					vars_bat.append(BatteryVariable.objects.get(var_name=subvar))  
-					fields_bat.append(subvar)
-			# much faster!
-			if(len(vars_bat)>0):
-				subjects_bat=subjects.prefetch_related(  # filter(gender='F').
-				    Prefetch(
-				            'batval',
-				            queryset=BatteryValue.objects.filter(reduce(lambda x, y: x | y, [Q(variable=v) for v in vars_bat])),
-				            to_attr='batvals'
-				    )
-				)		
-				subjects_bat = list(subjects_bat)
-				indices=[fields_bat.index(subjects_bat[0].batvals[i].variable_id) for i in range(0,len(fields_bat))]
-				indices_rev=[indices.index(i) for i in range(0, len(indices))]
-				vals_bat=[[s.batvals[i] for i in indices_rev] for s in subjects_bat]
-			else:
-				vals_bat=[[] for s in subjects] # need this for zip to work later
-
-			vars_img=[]
-			fields_img=[]
-			for requested_var in form_img.cleaned_data['imaging_selections']:
-				for subvar in get_img_subvars(requested_var):
-					vars_img.append(ImagingVariable.objects.get(var_name=subvar))  
-					fields_img.append(subvar)
-			if(len(vars_img)>0):
-				subjects_img=subjects.prefetch_related(  # filter(gender='F').
-				    Prefetch(
-				            'imgval',
-				            queryset=ImagingValue.objects.filter(reduce(lambda x, y: x | y, [Q(variable=v) for v in vars_img])),
-				            to_attr='imgvals'
-				    )
-				)		
-				subjects_img = list(subjects_img)
-				indices=[fields_img.index(subjects_img[0].imgvals[i].variable_id) for i in range(0,len(fields_img))]
-				indices_rev=[indices.index(i) for i in range(0, len(indices))]
-				vals_img=[[s.imgvals[i] for i in indices_rev] for s in subjects_img] ###### this line changes the order of s.imgvals if more than one con_ROI is selected!!!!!				
-			else:
-				vals_img=[[] for s in subjects] # need this for zip to work later
-			
 			snps=[]
 			fields_snp=[]
 			if form_snp.cleaned_data['rsIDs']: 
@@ -159,10 +93,32 @@ def select(request):
 			messages.error(request,"Error", extra_tags='alert')
 
 	else:
+
+		options_img={}
+		for fullvar in ImagingVariable.objects.all():
+			## names are in formation task_contrast_ROI.[L/R]
+			### there must be a much more elegant way to do this, but too lazy to figure it out right now
+			# if fullvar.var_name[-6:]==".Clust.L" or fullvar.var_name[-6:]==".Clust.R":
+			# 	var=fullvar.var_name[:-6]
+			# elif fullvar.var_name[-4:]==".Vox.L" or fullvar.var_name[-4:]==".Vox.R":
+			# 	var=fullvar.var_name[:-4]
+			if fullvar.var_name[-2:]==".L" or fullvar.var_name[-2:]==".R":
+				var=fullvar.var_name[:-2]
+			else:
+				var=fullvar.var_name
+			vargroup=fullvar.vargroup
+			if vargroup not in options_img:
+				options_img[vargroup]=[]
+			if var not in options_img[vargroup]:
+				options_img[vargroup].append(var)
+
+		fullnames=[v.var_name.split('_',1)[0] for v in BatteryVariable.objects.all()] # use split to pull only the measure name	
+		options_bat=sorted(set(fullnames)) # get unique entries (i.e. one for each measure)
+
+		fullnames=[v.var_name.split('_',1)[0] for v in Day1Variable.objects.all()] # use split to pull only the measure name	
+		options_day1=sorted(set(fullnames)) # get unique entries (i.e. one for each measure)
+
 		form = SelectionForm()
-		form_day1 = SelectionForm_Day1()
-		form_bat = SelectionForm_Battery()
-		form_img = SelectionForm_Imaging()
 		form_snp = SelectionForm_SNP()
 
-	return render(request, 'select.html',{'form':form,'form_day1':form_day1,'form_bat':form_bat,'form_img':form_img,'form_snp':form_snp})
+	return render(request, 'select.html',{'form':form,'options_day1':options_day1,'options_bat':options_bat,'options_img':options_img,'form_snp':form_snp})

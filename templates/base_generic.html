@@ -7,8 +7,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
     google.load("visualization", "1", {packages:["corechart"]});
@@ -39,9 +42,43 @@
 <body>
 
 <script>
+
     $(document).ready(function() {
+        
+        // django
         $('a[href="' + this.location.pathname + '"]').parent().addClass('active');
+        
+        // for select2
+        $('body').nextAll('optgroup').find('option').hide();  //// not totally sure if this is necessary
+        $(".selectVar").select2({
+          closeOnSelect: false,
+          placeholder: 'Select Variables:'
+        });
+        let optgroupState = {};
+        $("body").on('click', '.select2-container--open .select2-results__group', function() {
+          $(this).siblings().toggle();
+          let id = $(this).closest('.select2-results__options').attr('id');
+          let index = $('.select2-results__group').index(this);
+          optgroupState[id][index] = !optgroupState[id][index];
+        })
+        $('.selectVar').on('select2:open', function() {
+          $('.select2-dropdown--below .select2-dropdown--above').css('opacity', 0);
+          setTimeout(() => {
+            let groups = $('.select2-container--open .select2-results__group');
+            let id = $('.select2-results__options').attr('id');
+            if (!optgroupState[id]) {
+              optgroupState[id] = {};
+            }
+            $.each(groups, (index, v) => {
+              optgroupState[id][index] = optgroupState[id][index] || false;
+              optgroupState[id][index] ? $(v).siblings().show() : $(v).siblings().hide();
+            })
+            $('.select2-dropdown--below').css('opacity', 1);
+          }, 0);
+        }) 
+
     });
+
 </script>
 
 

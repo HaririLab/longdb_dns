@@ -11,10 +11,10 @@ from graphos.sources.simple import SimpleDataSource
 from graphos.renderers.gchart import ColumnChart
 from functools import reduce
 from django.db.models import Q, Prefetch
-from getdata.more_functions import get_img_subvars, get_day1_subvars
+from getdata.more_functions import get_subvars
 
 from getdata.models import Subject, SNP, Genotype, BatteryVariable, BatteryValue, ImagingVariable, ImagingValue, Day1Variable, Day1Value
-from getdata.forms import SelectionForm, SelectionForm_Battery, SelectionForm_Imaging, SelectionForm_SNP, SelectionForm_Day1
+from getdata.forms import SelectionForm, SelectionForm_Battery, SelectionForm_SNP, SelectionForm_Day1
 
 
 @login_required(login_url="/login/")

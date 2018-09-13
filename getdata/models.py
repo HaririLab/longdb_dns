@@ -7,17 +7,15 @@ class Subject(models.Model):
 	race_battery = models.CharField(max_length = 2,default='.')
 	latino_battery = models.CharField(max_length = 2,default='.')
 	age = models.IntegerField(default=-1)
-
 	def getattribute(self,attr):
 		return getattr(self,attr)
-
 	def __str__(self):
 		return self.dns_id 	
 
 class ImagingVariable(models.Model):
 	var_name = models.CharField(max_length=50,unique=True,primary_key=True)
 	subjects = models.ManyToManyField(Subject,through='ImagingValue')
-
+	vargroup = models.CharField(max_length=50,null=True,default='.')
 	def __str__(self):
 		return self.var_name
 
@@ -25,14 +23,12 @@ class ImagingValue(models.Model):
 	subject = models.ForeignKey(Subject,related_name='imgval',on_delete=models.DO_NOTHING)
 	variable = models.ForeignKey(ImagingVariable,on_delete=models.DO_NOTHING)
 	value = models.DecimalField(decimal_places=5,max_digits=12,null=True)
-
 	def __str__(self):
 		return self.subject.dns_id + '_' + self.variable.var_name
 
 class BatteryVariable(models.Model):
 	var_name = models.CharField(max_length=32,unique=True,primary_key=True)
 	subjects = models.ManyToManyField(Subject,through='BatteryValue')
-
 	def __str__(self):
 		return self.var_name
 
@@ -40,14 +36,12 @@ class BatteryValue(models.Model):
 	subject = models.ForeignKey(Subject,related_name='batval',on_delete=models.DO_NOTHING)
 	variable = models.ForeignKey(BatteryVariable,on_delete=models.DO_NOTHING)
 	value = models.DecimalField(decimal_places=5,max_digits=12,null=True)
-
 	def __str__(self):
 		return self.subject.dns_id + '_' + self.variable.var_name
 
 class Day1Variable(models.Model):
-	var_name = models.CharField(max_length=32,unique=True,primary_key=True)
+	var_name = models.CharField(max_length=50,unique=True,primary_key=True)
 	subjects = models.ManyToManyField(Subject,through='Day1Value')
-
 	def __str__(self):
 		return self.var_name		
 
@@ -55,7 +49,6 @@ class Day1Value(models.Model):
 	subject = models.ForeignKey(Subject,related_name='day1val',on_delete=models.DO_NOTHING)
 	variable = models.ForeignKey(Day1Variable,on_delete=models.DO_NOTHING)
 	value = models.CharField(max_length=150,null=True)
-
 	def __str__(self):
 		return self.subject.dns_id + '_' + self.variable.var_name
 
@@ -74,6 +67,5 @@ class Genotype(models.Model):
 	subject = models.ForeignKey(Subject,related_name='genotype',on_delete=models.DO_NOTHING)
 	SNP = models.ForeignKey(SNP,on_delete=models.DO_NOTHING)
 	genotype = models.CharField(max_length=2)
-
 	def __str__(self):
 		return self.subject.dns_id + '_' + self.SNP.rs_id

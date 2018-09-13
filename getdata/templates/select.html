@@ -10,18 +10,43 @@
     {{ form|bootstrap }}
 <br />
 
-<span style="float:left; padding-right:25px;">
+<div>	
 <h4>Day 1 Variables:</h4>
-    {{ form_day1 }}
-</span>
-  
-<span style="float:left; padding-right:25px;">
-<h4>Battery Variables:</h4>
-    {{ form_bat }}
-</span>
+	<div id="selectVar-container">
+	    <select class="selectVar" name="day1_selections"  multiple="multiple" style="width:350px">
+            {% for var in options_day1 %}
+				<option>{{var}}</option>
+			{% endfor %}		
+	     </select>     
+     </div>  
+</div>
 
-<h4>Imaging Variables:</h4>
-    {{ form_img }}
+<div>	
+<h4>Battery Variables:</h4>
+	<div id="selectVar-container">
+	    <select class="selectVar" name="bat_selections"  multiple="multiple" style="width:350px">
+            {% for var in options_bat %}
+				<option>{{var}}</option>
+			{% endfor %}		
+	     </select>        
+     </div>  
+</div>
+
+<div>	
+<h4>Functional ROI mean Variables:</h4>
+	<div id="selectVar-container">
+	    <select class="selectVar" name="img_selections"  multiple="multiple" style="width:350px">
+            {% for group,sublist in options_img.items %}
+				<optgroup label="{{group}}"> <br>
+				{% for var in sublist %}
+					<option>{{var}}</option>
+				{% endfor %}
+			{% endfor %}		
+	     </select>     
+     </div>  
+</div>
+
+
 
 <br />
 <br />
