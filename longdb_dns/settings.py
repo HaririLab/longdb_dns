@@ -59,7 +59,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'longdb_dns.urls'
+# this is in settings_secret.py
+#ROOT_URLCONF = 'longdb_dns.urls_dev'
 
 TEMPLATES = [
     {
@@ -151,6 +152,7 @@ IPRESTRICT_GEOIP_ENABLED = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = 'https://www.haririlab.com/longdb_dns/getdata/static/'  ### need this for deploy; for now only have static files in getdata app but may want to change later
+# this is in settings_secret
+#STATIC_URL = 'https://www.haririlab.com/longdb_dns/getdata/static/'  ### need this for deploy; for now only have static files in getdata app but may want to change later
 LOGIN_REDIRECT_URL = '/'
 
