@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['152.3.43.224','152.3.88.208','127.0.0.1','10.191.27.255',]
+ALLOWED_HOSTS = ['152.3.43.224','152.3.88.208','127.0.0.1','10.191.27.255','www.haririlab.com']
 
 
 # Application definition
@@ -151,6 +151,6 @@ IPRESTRICT_GEOIP_ENABLED = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'https://www.haririlab.com/longdb_dns/getdata/static/'  ### need this for deploy; for now only have static files in getdata app but may want to change later
 LOGIN_REDIRECT_URL = '/'
 

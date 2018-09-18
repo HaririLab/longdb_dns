@@ -7,24 +7,6 @@ class SelectionForm(forms.Form):
 	useRace = forms.BooleanField(required=False,label='Race')
 	useAge = forms.BooleanField(required=False,label='Age')
 
-
-class SelectionForm_Imaging(forms.Form):
-	fullnames=[v.var_name.split('_',2)[0]+'_'+v.var_name.split('_',2)[1] for v in ImagingVariable.objects.all()] # use split to pull only the measure name
-	names=sorted(set(fullnames)) # get unique entries (i.e. one for each measure)
-	OPTIONS=zip(names,names)
-	imaging_selections = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'size':10,'cols':30}),choices=OPTIONS,required=False,label='')	
-
-class SelectionForm_Battery(forms.Form):
-	fullnames=[v.var_name.split('_',1)[0] for v in BatteryVariable.objects.all()] # use split to pull only the measure name
-	names=sorted(set(fullnames)) # get unique entries (i.e. one for each measure)
-	OPTIONS=zip(names,names)
-	battery_selections = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'size':10,'cols':15}),choices=OPTIONS,required=False,label='')	
-
-class SelectionForm_Day1(forms.Form):
-	names=['CES','PCL','Trails','SDMT','PASAT','DigitSpan','CVLT','AMNART','WASI','VerbalFluency']
-	OPTIONS=zip(names,names)
-	day1_selections = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'size':10,'cols':15}),choices=OPTIONS,required=False,label='')	
-
 class SelectionForm_SNP(forms.Form):
 	rsIDs = forms.CharField(widget=forms.Textarea(attrs={'rows':10,'cols':25}),label='',required=False) #widget=forms.Textarea,
 
