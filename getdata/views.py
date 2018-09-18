@@ -10,12 +10,12 @@ from django.db.models import Q, Prefetch
 from getdata.more_functions import run_query #get_img_subvars, get_day1_subvars, get_bat_subvars
 
 from .models import Subject, SNP, Genotype, BatteryVariable, BatteryValue, ImagingVariable, ImagingValue, Day1Variable, Day1Value
-from .forms import SelectionForm, SelectionForm_Battery, SelectionForm_SNP, SelectionForm_Day1, SelectionForm_Imaging
+from .forms import SelectionForm, SelectionForm_SNP
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
     
-@login_required(login_url="/login/")
+@login_required(login_url="/longdb_dns/login/")
 def select(request):
 	if request.method == 'POST':
 		form = SelectionForm(request.POST)

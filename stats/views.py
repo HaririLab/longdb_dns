@@ -14,10 +14,10 @@ from django.db.models import Q, Prefetch
 from getdata.more_functions import get_subvars
 
 from getdata.models import Subject, SNP, Genotype, BatteryVariable, BatteryValue, ImagingVariable, ImagingValue, Day1Variable, Day1Value
-from getdata.forms import SelectionForm, SelectionForm_Battery, SelectionForm_SNP, SelectionForm_Day1
+from getdata.forms import SelectionForm, SelectionForm_SNP
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/longdb_dns/login/")
 def stats(request):
 	if request.method == 'POST':
 		form_bat = SelectionForm_Battery(request.POST)

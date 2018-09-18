@@ -120,16 +120,40 @@
 # 			else:
 # 				g=Day1Value.objects.create(subject=s,variable=r,value=None)			
 
-
-# fill in NULL img values
+# fill in NULL battery values
 ### MUST run this if the csv file used for importing imaging data only includes subjects with good data
-from getdata.models import Subject, ImagingVariable, ImagingValue
+from getdata.models import Subject, BatteryVariable, BatteryValue
 subjects=Subject.objects.all()
-imgvars=ImagingVariable.objects.all()
+vars=BatteryVariable.objects.all()
 for s in subjects:
-	for v in imgvars:
+	for v in vars:
 		# check if exists
-		found=ImagingValue.objects.filter(subject=s,variable=v)
+		found=BatteryValue.objects.filter(subject=s,variable=v)
 		if found.count() == 0:
-			ImagingValue.objects.create(subject=s,variable=v,value=None)
+			BatteryValue.objects.create(subject=s,variable=v,value=None)
 
+# fill in NULL day1 values
+### MUST run this if the csv file used for importing imaging data only includes subjects with good data
+from getdata.models import Subject, Day1Variable, Day1Value
+subjects=Subject.objects.all()
+vars=Day1Variable.objects.all()
+for s in subjects:
+	for v in vars:
+		# check if exists
+		found=Day1Value.objects.filter(subject=s,variable=v)
+		if found.count() == 0:
+			Day1Value.objects.create(subject=s,variable=v,value=None)
+
+## fill in NULL img values
+#### MUST run this if the csv file used for importing imaging data only includes subjects with good data
+#from getdata.models import Subject, ImagingVariable, ImagingValue
+#subjects=Subject.objects.all()
+#imgvars=ImagingVariable.objects.all()
+#for s in subjects:
+#	for v in imgvars:
+#		# check if exists
+#		found=ImagingValue.objects.filter(subject=s,variable=v)
+#		if found.count() == 0:
+#			ImagingValue.objects.create(subject=s,variable=v,value=None)
+#
+#

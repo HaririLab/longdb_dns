@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from getdata.models import Subject, SNP, Genotype
 from getdata.forms import SelectionForm_SNP
 
-@login_required(login_url="/login/")
+@login_required(login_url="/longdb_dns/login/")
 def checkSNP(request):
 	if request.method == 'POST':
 		form_snp = SelectionForm_SNP(request.POST)
