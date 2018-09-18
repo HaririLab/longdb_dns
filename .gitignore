@@ -6,3 +6,5 @@ db.sqlite3
 .DS_Store
 longdb_dns/settings_secret.py
 DataToIncorporate/
+importing_data_scratch.py
+migrations/
