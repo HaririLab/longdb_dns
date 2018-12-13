@@ -10,6 +10,6 @@ urlpatterns = [
     #path('', views.home, name='index'),
     # ex: /getdata/select/
     path('', views.select, name='select'),
-  
-    
+
+
 ]

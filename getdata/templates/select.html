@@ -10,40 +10,47 @@
     {{ form|bootstrap }}
 <br />
 
-<div>	
+<div>
 <h4>Day 1 Variables:</h4>
-	<div id="selectVar-container">
-	    <select class="selectVar" name="day1_selections"  multiple="multiple" style="width:350px">
+  <div id="selectVar-container">
+      <select class="selectVar" name="day1_selections"  multiple="multiple" style="width:350px">
             {% for var in options_day1 %}
-				<option>{{var}}</option>
-			{% endfor %}		
-	     </select>     
-     </div>  
+        <option>{{var}}</option>
+      {% endfor %}
+       </select>
+     </div>
 </div>
 
-<div>	
+<br />
+<h4>Battery Variable Types:</h4>
+    {{ form_bat_type|bootstrap }}
+<br />
+
+<div>
 <h4>Battery Variables:</h4>
-	<div id="selectVar-container">
-	    <select class="selectVar" name="bat_selections"  multiple="multiple" style="width:350px">
+  <div id="selectVar-container">
+      <select class="selectVar" name="bat_selections"  multiple="multiple" style="width:350px">
             {% for var in options_bat %}
-				<option>{{var}}</option>
-			{% endfor %}		
-	     </select>        
-     </div>  
+        <option>{{var}}</option>
+      {% endfor %}
+       </select>
+     </div>
 </div>
 
-<div>	
+<div>
+
+<div>
 <h4>fMRI ROI Extracted Variables:</h4>
-	<div id="selectVar-container">
-	    <select class="selectVar" name="img_selections"  multiple="multiple" style="width:350px">
+  <div id="selectVar-container">
+      <select class="selectVar" name="img_selections"  multiple="multiple" style="width:350px">
             {% for group,sublist in options_img.items %}
-				<optgroup label="{{group}}"> <br>
-				{% for var in sublist %}
-					<option>{{var}}</option>
-				{% endfor %}
-			{% endfor %}		
-	     </select>     
-     </div>  
+        <optgroup label="{{group}}"> <br>
+        {% for var in sublist %}
+          <option>{{var}}</option>
+        {% endfor %}
+      {% endfor %}
+       </select>
+     </div>
 </div>
 
 

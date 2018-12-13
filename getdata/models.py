@@ -10,7 +10,7 @@ class Subject(models.Model):
 	def getattribute(self,attr):
 		return getattr(self,attr)
 	def __str__(self):
-		return self.dns_id 	
+		return self.dns_id
 
 class ImagingVariable(models.Model):
 	var_name = models.CharField(max_length=50,unique=True,primary_key=True)
@@ -29,6 +29,7 @@ class ImagingValue(models.Model):
 class BatteryVariable(models.Model):
 	var_name = models.CharField(max_length=32,unique=True,primary_key=True)
 	subjects = models.ManyToManyField(Subject,through='BatteryValue')
+	var_type = models.CharField(max_length=3,default='.')
 	def __str__(self):
 		return self.var_name
 
@@ -43,7 +44,7 @@ class Day1Variable(models.Model):
 	var_name = models.CharField(max_length=50,unique=True,primary_key=True)
 	subjects = models.ManyToManyField(Subject,through='Day1Value')
 	def __str__(self):
-		return self.var_name		
+		return self.var_name
 
 class Day1Value(models.Model):
 	subject = models.ForeignKey(Subject,related_name='day1val',on_delete=models.DO_NOTHING)
