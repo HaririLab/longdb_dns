@@ -48,7 +48,7 @@ def run_query(requested_vars,var_type,subjects):
 		            to_attr='fetched_vals'
 		    )
 		)		
-		## original solution - doesn't work since fetched variables aren't always in the same order!!
+		## original solution - doesn't work since fetched variables aren't always in the same order!!	
 		# subjects_out = list(subjects_out)
 		# indices=[fields_out.index(subjects_out[0].fetched_vals[i].variable_id) for i in range(0,len(fields_out))]  #### if this isn't working, it might be because the first subject does not have values for the given variable, and you need to create null ones!
 		# indices_rev=[indices.index(i) for i in range(0, len(indices))]
