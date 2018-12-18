@@ -99,13 +99,13 @@ def select(request):
                 # except:
                 #     print('********2*********')
                 #     context_data = request.session['context_data']  # if not,
-                # response = HttpResponse(content_type='text/csv')
-                # response['Content-Disposition'] = 'attachment; filename="ExtractedData.csv"'
-                # t = loader.get_template('write_csv_template.py')
-                # # response.write(t.render({'fields':fields,'fields_day1':fields_day1,'fields_bat':fields_bat,'fields_img':fields_img,'fields_snp':fields_snp,'subj_data_tuples':subj_data_tuples}))
+                response = HttpResponse(content_type='text/csv')
+                response['Content-Disposition'] = 'attachment; filename="ExtractedData.csv"'
+                t = loader.get_template('write_csv_template.py')
                 # response.write(t.render({'fields':fields,'fields_day1':fields_day1,'fields_bat':fields_bat,'fields_img':fields_img,'fields_snp':fields_snp,'subj_data_tuples':subj_data_tuples}))
-                # return response
-                return HttpResponseRedirect("You'd switch to Write CSV mode now.")
+                response.write(t.render({'fields':fields,'fields_day1':fields_day1,'fields_bat':fields_bat,'fields_img':fields_img,'fields_snp':fields_snp,'subj_data_tuples':subj_data_tuples}))
+                return response
+                # return HttpResponseRedirect("You'd switch to Write CSV mode now.")
 
         else:
             messages.error(request,"Error", extra_tags='alert')
@@ -142,11 +142,11 @@ def select(request):
 
     return render(request, 'select.html',{'form':form,'options_day1':options_day1,'form_bat_type':form_bat_type,'options_bat':options_bat,'options_img':options_img,'form_snp':form_snp})
 
-def write_csv(request):
-    if request.POST['action'] == 'Write CSV':
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="ExtractedData.csv"'
-        t = loader.get_template('write_csv_template.py')
-        # response.write(t.render({'fields':fields,'fields_day1':fields_day1,'fields_bat':fields_bat,'fields_img':fields_img,'fields_snp':fields_snp,'subj_data_tuples':subj_data_tuples}))
-        response.write(t.render({'fields':fields,'fields_day1':fields_day1,'fields_bat':fields_bat,'fields_img':fields_img,'fields_snp':fields_snp,'subj_data_tuples':subj_data_tuples}))
-        return response
+# def write_csv(request):
+#     if request.POST['action'] == 'Write CSV':
+#         response = HttpResponse(content_type='text/csv')
+#         response['Content-Disposition'] = 'attachment; filename="ExtractedData.csv"'
+#         t = loader.get_template('write_csv_template.py')
+#         # response.write(t.render({'fields':fields,'fields_day1':fields_day1,'fields_bat':fields_bat,'fields_img':fields_img,'fields_snp':fields_snp,'subj_data_tuples':subj_data_tuples}))
+#         response.write(t.render({'fields':fields,'fields_day1':fields_day1,'fields_bat':fields_bat,'fields_img':fields_img,'fields_snp':fields_snp,'subj_data_tuples':subj_data_tuples}))
+#         return response
