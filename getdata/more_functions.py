@@ -1,4 +1,4 @@
-from .models import BatteryVariable, ImagingVariable, Day1Variable, ImagingValue, BatteryValue, Day1Value
+from .models import FreeSurferVariable, FreeSurferValue, BatteryVariable, ImagingVariable, Day1Variable, ImagingValue, BatteryValue, Day1Value
 from django.db.models import Q, Prefetch
 from functools import reduce
 
@@ -71,8 +71,8 @@ from functools import reduce
 ### edited to include different batvar types (RAW, REC) and remove var_type overlap with BatteryVariable field
 # Takes the name of an imaging variable in the form of Task_Contrast_ROI
 def get_subvars(var,var_cat,bat_type):
-    if var_cat == "img":
-        allvars=ImagingVariable.objects.all()
+    if var_cat == "freesurfer":
+        allvars=FreeSurferVariable.objects.all()
     elif var_cat == "bat":
         if not bat_type:
             allvars=BatteryVariable.objects.all()
@@ -85,14 +85,14 @@ def get_subvars(var,var_cat,bat_type):
         return
     varlist=[]
     for v in allvars:
-        if v.var_name.startswith(var):
+        if var=="ALL_REGIONS" or v.var_name.startswith(var):
             varlist.append(v.var_name)
     return varlist
 
 def run_query(requested_vars,var_cat,bat_type,subjects): # bat_type here refers to a list of BatteryVariable.var_type selected by user
-    if var_cat == "img":
-        allvars=ImagingVariable.objects
-        allvals=ImagingValue.objects
+    if var_cat == "freesurfer":
+        allvars=FreeSurferVariable.objects
+        allvals=FreeSurferValue.objects
     elif var_cat == "bat":
         allvars=BatteryVariable.objects
         allvals=BatteryValue.objects

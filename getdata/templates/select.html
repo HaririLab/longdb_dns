@@ -40,7 +40,20 @@
 <div>
 
 <div>
-<h4>fMRI ROI Extracted Variables:</h4>
+
+<h4>FreeSurfer Variables:</h4>
+  <div id="selectVar-container">
+      <select class="selectVar" name="freesurfer_selections"  multiple="multiple" style="width:350px">
+            {% for group,sublist in options_freesurfer.items %}
+        <optgroup label="{{group}}"> <br>
+        {% for var in sublist %}
+          <option>{{var}}</option>
+        {% endfor %}  
+      {% endfor %}
+       </select>     
+     </div>  
+</div> 
+ <!-- <h4>fMRI ROI Extracted Variables:</h4>
   <div id="selectVar-container">
       <select class="selectVar" name="img_selections"  multiple="multiple" style="width:350px">
             {% for group,sublist in options_img.items %}
@@ -51,20 +64,22 @@
       {% endfor %}
        </select>
      </div>
-</div>
+</div>-->
 
 
 
 <br />
 <br />
 
-<h4>SNPs:</h4>
+<!-- <h4>SNPs:</h4>
 <p>Enter rs id(s), e.g. rs1234 (one per line)</p>
     {{ form_snp }}
 <br />
 <br />
 <br />
-    <input type="submit" name="action" value="Preview" /> <input type="submit" name="action" value="Write CSV" />
+-->
+
+    <input type="submit" name="action" value="Preview" /> <input type="submit" name="action" value="Write CSV" /> 
 
 </form>
 

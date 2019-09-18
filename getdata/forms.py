@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
-from .models import SNP, BatteryVariable, Day1Variable, ImagingVariable
+from .models import Day1Variable, ImagingVariable, SNP #BatteryVariable, 
 
 class SelectionForm(forms.Form):
     useGender = forms.BooleanField(required=False,label='Gender') #,initial='True'

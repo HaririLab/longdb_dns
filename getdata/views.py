@@ -9,8 +9,8 @@ from functools import reduce
 from django.db.models import Q, Prefetch
 from getdata.more_functions import run_query #get_img_subvars, get_day1_subvars, get_bat_subvars
 
-from .models import Subject, SNP, Genotype, BatteryVariable, BatteryValue, ImagingVariable, ImagingValue, Day1Variable, Day1Value
-from .forms import SelectionForm, SelectionForm_SNP, SelectionForm_bat_type
+from .models import Subject, FreeSurferVariable, BatteryVariable, BatteryValue, ImagingVariable, ImagingValue, Day1Variable, Day1Value
+from .forms import SelectionForm, SelectionForm_bat_type
 
 # def index(request):
 #     return HttpResponse("Hello, world. You're at the polls index.")
@@ -24,9 +24,8 @@ def select(request):
         # form_day1 = SelectionForm_Day1(request.POST)
         # form_bat = SelectionForm_Battery(request.POST)
         # form_img = SelectionForm_Imaging(request.POST)
-        form_snp = SelectionForm_SNP(request.POST)
         form_bat_type = SelectionForm_bat_type(request.POST)
-        if form.is_valid() and form_snp.is_valid() and form_bat_type.is_valid():
+        if form.is_valid() and form_bat_type.is_valid():
             fields=[]
             if form.cleaned_data['useGender']:
                 fields.append('gender')
@@ -51,35 +50,10 @@ def select(request):
             ### edit for bat var_type
             fields_day1,vals_day1=run_query(request.POST.getlist('day1_selections'),"day1",'',subjects)
             fields_bat,vals_bat=run_query(request.POST.getlist('bat_selections'),"bat",bat_type,subjects)
-            fields_img,vals_img=run_query(request.POST.getlist('img_selections'),"img",'',subjects)
+            # fields_img,vals_img=run_query(request.POST.getlist('img_selections'),"img",'',subjects)
+            fields_freesurfer,vals_freesurfer=run_query(request.POST.getlist('freesurfer_selections'),"freesurfer",'',subjects)
 
-            snps=[]
-            fields_snp=[]
-            if form_snp.cleaned_data['rsIDs']:
-                for rsID in form_snp.cleaned_data['rsIDs']:
-                    snp=SNP.objects.get(rs_id=rsID)
-                    snps.append(snp)
-                    fields_snp.append(rsID+'_'+snp.a1+'('+snp.a2+')')
-            ## with prefetch
-            genos=[]
-            if(len(snps)>0):
-                subjects_gen=subjects.prefetch_related(  # filter(gender='F').
-                    Prefetch(
-                            'genotype',
-                            queryset=Genotype.objects.filter(reduce(lambda x, y: x | y, [Q(SNP=snp) for snp in snps])),
-                            to_attr='genotypes'
-                    )
-                )
-                ##### ideally only need this before all SNP data is populated... not sure how it'll handle case where a subj has one of the requested SNPs but not all!
-                for s in subjects_gen:
-                    if s.genotypes:
-                        genos.append(s.genotypes)  #### not sure why i have to use genotype rather than genotype_set here bc the opposite was what worked in the shelL!
-                    else:
-                        genos.append('None')
-            else:
-                genos=[[] for s in subjects] # need this for zip to work later
-
-            subj_data_tuples=list(zip(subjects,vals_day1,vals_bat,vals_img,genos)    )
+            subj_data_tuples=list(zip(subjects,vals_day1,vals_bat,vals_freesurfer)    )
 
             if request.POST['action'] == 'Preview':
                 #### need to do a bit more research to enable adding the "write csv" button to preview page
@@ -88,7 +62,7 @@ def select(request):
                 # print('****0******')
                 # request.session.pop('fields',None)
                 # request.session['fields']=fields
-                return render(request, 'selected_data.html',{'fields':fields,'fields_day1':fields_day1,'fields_bat':fields_bat,'fields_img':fields_img,'fields_snp':fields_snp,'subj_data_tuples':subj_data_tuples})
+                return render(request, 'selected_data.html',{'fields':fields,'fields_day1':fields_day1,'fields_bat':fields_bat,'fields_freesurfer':fields_freesurfer,'subj_data_tuples':subj_data_tuples})
             else:
                 # try:
                 #     print('********1*********')
@@ -103,7 +77,7 @@ def select(request):
                 response['Content-Disposition'] = 'attachment; filename="ExtractedData.csv"'
                 t = loader.get_template('write_csv_template.py')
                 # response.write(t.render({'fields':fields,'fields_day1':fields_day1,'fields_bat':fields_bat,'fields_img':fields_img,'fields_snp':fields_snp,'subj_data_tuples':subj_data_tuples}))
-                response.write(t.render({'fields':fields,'fields_day1':fields_day1,'fields_bat':fields_bat,'fields_img':fields_img,'fields_snp':fields_snp,'subj_data_tuples':subj_data_tuples}))
+                response.write(t.render({'fields':fields,'fields_day1':fields_day1,'fields_bat':fields_bat,'fields_freesurfer':fields_freesurfer,'subj_data_tuples':subj_data_tuples}))
                 return response
                 # return HttpResponseRedirect("You'd switch to Write CSV mode now.")
 
@@ -112,23 +86,23 @@ def select(request):
 
     else:
 
-        options_img={}
-        for fullvar in ImagingVariable.objects.all():
-            ## names are in formation task_contrast_ROI.[L/R]
-            ### there must be a much more elegant way to do this, but too lazy to figure it out right now
-            # if fullvar.var_name[-6:]==".Clust.L" or fullvar.var_name[-6:]==".Clust.R":
-            #     var=fullvar.var_name[:-6]
-            # elif fullvar.var_name[-4:]==".Vox.L" or fullvar.var_name[-4:]==".Vox.R":
-            #     var=fullvar.var_name[:-4]
-            if fullvar.var_name[-2:]==".L" or fullvar.var_name[-2:]==".R":
-                var=fullvar.var_name[:-2]
-            else:
-                var=fullvar.var_name
-            vargroup=fullvar.vargroup
-            if vargroup not in options_img:
-                options_img[vargroup]=[]
-            if var not in options_img[vargroup]:
-                options_img[vargroup].append(var)
+        # options_img={}
+        # for fullvar in ImagingVariable.objects.all():
+        #     ## names are in formation task_contrast_ROI.[L/R]
+        #     ### there must be a much more elegant way to do this, but too lazy to figure it out right now
+        #     # if fullvar.var_name[-6:]==".Clust.L" or fullvar.var_name[-6:]==".Clust.R":
+        #     #     var=fullvar.var_name[:-6]
+        #     # elif fullvar.var_name[-4:]==".Vox.L" or fullvar.var_name[-4:]==".Vox.R":
+        #     #     var=fullvar.var_name[:-4]
+        #     if fullvar.var_name[-2:]==".L" or fullvar.var_name[-2:]==".R":
+        #         var=fullvar.var_name[:-2]
+        #     else:
+        #         var=fullvar.var_name
+        #     vargroup=fullvar.vargroup
+        #     if vargroup not in options_img:
+        #         options_img[vargroup]=[]
+        #     if var not in options_img[vargroup]:
+        #         options_img[vargroup].append(var)
 
         fullnames=[v.var_name.split('_',1)[0] for v in BatteryVariable.objects.all()] # use split to pull only the measure name
         options_bat=sorted(set(fullnames)) # get unique entries (i.e. one for each measure)
@@ -137,10 +111,22 @@ def select(request):
         options_day1=sorted(set(fullnames)) # get unique entries (i.e. one for each measure)
 
         form = SelectionForm()
-        form_snp = SelectionForm_SNP()
         form_bat_type = SelectionForm_bat_type()
 
-    return render(request, 'select.html',{'form':form,'options_day1':options_day1,'form_bat_type':form_bat_type,'options_bat':options_bat,'options_img':options_img,'form_snp':form_snp})
+        options_freesurfer={}
+        for fullvar in FreeSurferVariable.objects.all():
+          ## names are in form task_contrast_ROI.[L/R]
+          if fullvar.var_name[-2:]==".L" or fullvar.var_name[-2:]==".R":
+              var=fullvar.var_name[:-2]
+          else:
+              var=fullvar.var_name
+          vargroup=fullvar.vargroup
+          if vargroup not in options_freesurfer:
+              options_freesurfer[vargroup]=['ALL_REGIONS']
+          if var not in options_freesurfer[vargroup]:
+              options_freesurfer[vargroup].append(var)
+
+    return render(request, 'select.html',{'form':form,'options_freesurfer':options_freesurfer,'options_day1':options_day1,'form_bat_type':form_bat_type,'options_bat':options_bat,'options_freesurfer':options_freesurfer})
 
 # def write_csv(request):
 #     if request.POST['action'] == 'Write CSV':

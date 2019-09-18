@@ -53,6 +53,20 @@ class Day1Value(models.Model):
 	def __str__(self):
 		return self.subject.dns_id + '_' + self.variable.var_name
 
+class FreeSurferVariable(models.Model):
+	var_name = models.CharField(max_length=50,unique=True,primary_key=True)
+	vargroup = models.CharField(max_length=50,null=True,default='.')
+	subjects = models.ManyToManyField(Subject,through='FreeSurferValue')
+	def __str__(self):
+		return self.var_name
+
+class FreeSurferValue(models.Model):
+	subject = models.ForeignKey(Subject,related_name='freesurferval',on_delete=models.DO_NOTHING)
+	variable = models.ForeignKey(FreeSurferVariable,on_delete=models.DO_NOTHING)
+	value = models.DecimalField(decimal_places=5,max_digits=16,null=True)
+	def __str__(self):
+		return self.subject.snum + '_' + self.variable.var_name
+
 class SNP(models.Model):
 	rs_id = models.CharField(max_length=32,unique=True,primary_key=True)
 	subjects = models.ManyToManyField(Subject,through='Genotype')
