@@ -22,9 +22,6 @@
 </div>
 
 <br />
-<h4>Battery Variable Types:</h4>
-    {{ form_bat_type|bootstrap }}
-<br />
 
 <div>
 <h4>Battery Variables:</h4>
@@ -37,10 +34,24 @@
      </div>
 </div>
 
-<div>
+<h4>Battery Variable Types:</h4>
+    {{ form_bat_type|bootstrap }}
+
+<br />
+
+<h4>Composite Variables:</h4>
+  <div id="selectVar-container">
+      <select class="selectVar" name="comp_selections"  multiple="multiple" style="width:350px">
+            {% for var in options_comp %}
+        <option>{{var}}</option>
+      {% endfor %}
+       </select>
+     </div>
+</div>
+
+<br />
 
 <div>
-
 <h4>FreeSurfer Variables:</h4>
   <div id="selectVar-container">
       <select class="selectVar" name="freesurfer_selections"  multiple="multiple" style="width:350px">

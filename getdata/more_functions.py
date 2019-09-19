@@ -1,72 +1,6 @@
-from .models import FreeSurferVariable, FreeSurferValue, BatteryVariable, ImagingVariable, Day1Variable, ImagingValue, BatteryValue, Day1Value
+from .models import FreeSurferVariable, FreeSurferValue, BatteryVariable, ImagingVariable, Day1Variable, ImagingValue, BatteryValue, Day1Value, CompositeVariable, CompositeValue
 from django.db.models import Q, Prefetch
 from functools import reduce
-
-#
-# # Takes the name of an imaging variable in the form of Task_Contrast_ROI
-# def get_subvars(var,var_type):
-#     if var_type == "img":
-#         allvars=ImagingVariable.objects.all()
-#     elif var_type == "bat":
-#         allvars=BatteryVariable.objects.all()
-#     elif var_type == "day1":
-#         allvars=Day1Variable.objects.all()
-#     else:
-#         print("Invalid var_type: "+var_type)
-#         return
-#     varlist=[]
-#     for v in allvars:
-#         if v.var_name.startswith(var):
-#             varlist.append(v.var_name)
-#     return varlist
-#
-# def run_query(requested_vars,var_type,subjects):
-#     if var_type == "img":
-#         allvars=ImagingVariable.objects
-#         allvals=ImagingValue.objects
-#     elif var_type == "bat":
-#         allvars=BatteryVariable.objects
-#         allvals=BatteryValue.objects
-#     elif var_type == "day1":
-#         allvars=Day1Variable.objects
-#         allvals=Day1Value.objects
-#     else:
-#         print("Invalid var_type: "+var_type)
-#         return
-#     related_name=var_type+'val'
-#     vars_out=[]
-#     fields_out=[]
-#     for requested_var in requested_vars:
-#         for subvar in get_subvars(requested_var,var_type):
-#             vars_out.append(allvars.get(var_name=subvar))
-#             fields_out.append(subvar)
-#     if(len(vars_out)>0):
-#         subjects_out=subjects.prefetch_related(  # filter(gender='F').
-#             Prefetch(
-#                     related_name,
-#                     queryset=allvals.filter(reduce(lambda x, y: x | y, [Q(variable=v) for v in vars_out])),
-#                     to_attr='fetched_vals'
-#             )
-#         )
-#         ## original solution - doesn't work since fetched variables aren't always in the same order!!
-#         # subjects_out = list(subjects_out)
-#         # indices=[fields_out.index(subjects_out[0].fetched_vals[i].variable_id) for i in range(0,len(fields_out))]  #### if this isn't working, it might be because the first subject does not have values for the given variable, and you need to create null ones!
-#         # indices_rev=[indices.index(i) for i in range(0, len(indices))]
-#         # vals_out=[[s.fetched_vals[i] if i < len(s.fetched_vals) else None for i in indices_rev] for s in subjects_out] ###### this line changes the order of s.fetched_vals if more than one con_ROI is selected!!!!!
-#         ## new solution!!
-#         vals_out=[]
-#         for s in list(subjects_out):
-#             this_subjects_vars=[]
-#             for i in range(0,len(fields_out)):
-#                 cur_var=next(filter(lambda x: x.variable_id==fields_out[i], s.fetched_vals))
-#                 if cur_var is None:
-#                     this_subjects_vars.append(None)
-#                 else:
-#                     this_subjects_vars.append(cur_var)
-#             vals_out.append(this_subjects_vars)
-#     else:
-#         vals_out=[[] for s in subjects] # need this for zip to work later
-#     return fields_out,vals_out
 
 ### edited to include different batvar types (RAW, REC) and remove var_type overlap with BatteryVariable field
 # Takes the name of an imaging variable in the form of Task_Contrast_ROI
@@ -80,6 +14,8 @@ def get_subvars(var,var_cat,bat_type):
             allvars=BatteryVariable.objects.filter(var_type__in=bat_type)
     elif var_cat == "day1":
         allvars=Day1Variable.objects.all()
+    elif var_cat == "comp":
+        allvars=CompositeVariable.objects.all()    
     else:
         print("Invalid var_cat: "+var_cat)
         return
@@ -99,6 +35,9 @@ def run_query(requested_vars,var_cat,bat_type,subjects): # bat_type here refers 
     elif var_cat == "day1":
         allvars=Day1Variable.objects
         allvals=Day1Value.objects
+    elif var_cat == "comp":
+        allvars=CompositeVariable.objects
+        allvals=CompositeValue.objects      
     else:
         print("Invalid var_cat: "+var_cat)
         return

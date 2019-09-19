@@ -1,13 +1,13 @@
 # ## run these from within a django shell:
 # ## python3 manage.py shell < DataToIncorporate/import_battery.py
 
-
-# read battery data
 import csv, datetime
 from decimal import Decimal
 from getdata.models import Subject, BatteryVariable, BatteryValue
 from itertools import islice
-with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/BATTERY_RAW.csv',newline='') as f:
+
+# read battery data from additional file
+with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/DNS_DDT.csv',newline='') as f:
 	reader=csv.reader(f)
 	row1=next(reader)
 	print(row1[0])
@@ -15,15 +15,6 @@ with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/BATTERY_RA
 	# for row in islice(reader,977,None): # for starting in the middle
 		print(row[0])
 		s,c=Subject.objects.get_or_create(dns_id=row[0])
-		if row[1] == '1':
-			s.gender='M';
-		elif row[1] =='2':
-			s.gender='F';
-		else:
-			continue
-		s.race_battery=row[2];
-		s.latino_battery=row[3];
-		s.age=row[4];
 		for i in range(1,len(row1)):
 			name_str=row1[i]
 			name_list=name_str.split("_")
@@ -33,11 +24,44 @@ with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/BATTERY_RA
 			else:
 				r,c=BatteryVariable.objects.get_or_create(var_name=name_str,var_type='.')
 			# add value to db if not empty
-			if row[i].strip(' "'):
+			if row[i].strip(' "') and row[i] != '.':
 				v=BatteryValue.objects.create(subject=s,variable=r,value=Decimal(row[i].strip(' "')))
 			else:
 				v=BatteryValue.objects.create(subject=s,variable=r,value=None)
 		s.save();
+
+# # read battery data from main file
+# with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/BATTERY_RAW.csv',newline='') as f:
+# 	reader=csv.reader(f)
+# 	row1=next(reader)
+# 	print(row1[0])
+# 	for row in reader:
+# 	# for row in islice(reader,977,None): # for starting in the middle
+# 		print(row[0])
+# 		s,c=Subject.objects.get_or_create(dns_id=row[0])
+# 		if row[1] == '1':
+# 			s.gender='M';
+# 		elif row[1] =='2':
+# 			s.gender='F';
+# 		else:
+# 			continue
+# 		s.race_battery=row[2];
+# 		s.latino_battery=row[3];
+# 		s.age=row[4];
+# 		for i in range(1,len(row1)):
+# 			name_str=row1[i]
+# 			name_list=name_str.split("_")
+# 			# r,c=BatteryVariable.objects.get_or_create(var_name=name_str,var_type='RAW')
+# 			if name_list[-1] == 'RAW' or name_list[-1] == 'REC':
+# 				r,c=BatteryVariable.objects.get_or_create(var_name=name_str,var_type=name_list[-1])
+# 			else:
+# 				r,c=BatteryVariable.objects.get_or_create(var_name=name_str,var_type='.')
+# 			# add value to db if not empty
+# 			if row[i].strip(' "'):
+# 				v=BatteryValue.objects.create(subject=s,variable=r,value=Decimal(row[i].strip(' "')))
+# 			else:
+# 				v=BatteryValue.objects.create(subject=s,variable=r,value=None)
+# 		s.save();
 
 # # changing variable name so that it doesn't conflict with RAW/REC naming convention
 # newvar, created=BatteryVariable.objects.get_or_create(var_name='EDI_Bul_unscaled',var_type='.')

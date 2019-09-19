@@ -18,13 +18,16 @@
 {% for f in fields_bat %}
 	<th>{{f}}</th>
 {% endfor %}
+{% for f in fields_comp %}
+	<th>{{f}}</th>
+{% endfor %}
 {% for f in fields_freesurfer %}
 	<th>{{f}}</th>
 {% endfor %}
 </tr>
 </thead>
 
-{% for subj,vals_day1,vals_bat,vals_freesurfer in subj_data_tuples %}
+{% for subj,vals_day1,vals_bat,vals_freesurfer,vals_comp in subj_data_tuples %}
 <tr>
 <td>{{subj.dns_id}}</td>
 	{% for f in fields %}
@@ -34,6 +37,9 @@
 		<td> {{ v.value }} </td>
 	{% endfor %}
 	{% for v in vals_bat %}
+		<td> {{ v.value }} </td>
+	{% endfor %}
+	{% for v in vals_comp %}
 		<td> {{ v.value }} </td>
 	{% endfor %}
 	{% for v in vals_freesurfer %}

@@ -40,6 +40,20 @@ class BatteryValue(models.Model):
 	def __str__(self):
 		return self.subject.dns_id + '_' + self.variable.var_name
 
+class CompositeVariable(models.Model):
+	var_name = models.CharField(max_length=32,unique=True,primary_key=True)
+	subjects = models.ManyToManyField(Subject,through='CompositeValue')
+	var_type = models.CharField(max_length=3,default='.') # realized I probably won't need this but will just leave it anyways
+	def __str__(self):
+		return self.var_name
+
+class CompositeValue(models.Model):
+	subject = models.ForeignKey(Subject,related_name='compval',on_delete=models.DO_NOTHING)
+	variable = models.ForeignKey(CompositeVariable,on_delete=models.DO_NOTHING)
+	value = models.DecimalField(decimal_places=5,max_digits=12,null=True)
+	def __str__(self):
+		return self.subject.dns_id + '_' + self.variable.var_name
+
 class Day1Variable(models.Model):
 	var_name = models.CharField(max_length=50,unique=True,primary_key=True)
 	subjects = models.ManyToManyField(Subject,through='Day1Value')
