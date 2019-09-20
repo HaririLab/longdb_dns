@@ -129,6 +129,28 @@
   </div>
 </div> 
 
+<br />
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+        <h5>Additional Imaging Variables:</h5>
+          <div id="selectVar-container">
+            <select class="selectVar" name="img_selections"  multiple="multiple" style="width:350px">
+                    {% for group,sublist in options_img.items %}
+                <optgroup label="{{group}}"> <br>
+                {% for var in sublist %}
+                  <option>{{var}}</option>
+                {% endfor %}  
+              {% endfor %}
+            </select>     
+          </div>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+  </div>
+</div> 
+
  <!-- <h5>fMRI ROI Extracted Variables:</h5>
   <div id="selectVar-container">
       <select class="selectVar" name="img_selections"  multiple="multiple" style="width:350px">
@@ -167,7 +189,5 @@
 
 </form>
 
-<br />
-<br />
-<br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% endblock %}

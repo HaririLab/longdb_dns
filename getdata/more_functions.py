@@ -1,4 +1,4 @@
-from .models import FreeSurferVariable, FreeSurferValue, BatteryVariable, ImagingVariable, Day1Variable, ImagingValue, BatteryValue, Day1Value, CompositeVariable, CompositeValue
+from .models import ImagingVariable, ImagingValue, FreeSurferVariable, FreeSurferValue, BatteryVariable, ImagingVariable, Day1Variable, ImagingValue, BatteryValue, Day1Value, CompositeVariable, CompositeValue
 from django.db.models import Q, Prefetch
 from functools import reduce
 
@@ -16,6 +16,8 @@ def get_subvars(var,var_cat,bat_type):
         allvars=Day1Variable.objects.all()
     elif var_cat == "comp":
         allvars=CompositeVariable.objects.all()    
+    elif var_cat == "img":
+        allvars=ImagingVariable.objects.all()            
     else:
         print("Invalid var_cat: "+var_cat)
         return
@@ -37,7 +39,10 @@ def run_query(requested_vars,var_cat,bat_type,subjects): # bat_type here refers 
         allvals=Day1Value.objects
     elif var_cat == "comp":
         allvars=CompositeVariable.objects
-        allvals=CompositeValue.objects      
+        allvals=CompositeValue.objects  
+    elif var_cat == "img":
+        allvars=ImagingVariable.objects
+        allvals=ImagingValue.objects  
     else:
         print("Invalid var_cat: "+var_cat)
         return

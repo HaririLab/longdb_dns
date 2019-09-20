@@ -25,10 +25,13 @@
 {% for f in fields_freesurfer %}
 	<th>{{f}}</th>
 {% endfor %}
+{% for f in fields_img %}
+	<th>{{f}}</th>
+{% endfor %}
 </tr>
 </thead>
 
-{% for subj,vals_day1,vals_bat,vals_freesurfer,vals_comp in subj_data_tuples %}
+{% for subj,vals_day1,vals_bat,vals_freesurfer,vals_img,vals_comp in subj_data_tuples %}
 <tr>
 <td>{{subj.dns_id}}</td>
 	{% for f in fields %}
@@ -45,6 +48,9 @@
 	{% endfor %}
 	{% for v in vals_freesurfer %}
 		<td> {{ v.value }} </td>
+	{% endfor %}
+	{% for v in vals_img %}
+		<td> {% if v.value == 99999 %} {{v.path}} {% else %} {{ v.value }} {% endif %} </td>
 	{% endfor %}
 </tr>
 {% endfor %}

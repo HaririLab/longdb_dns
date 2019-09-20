@@ -23,6 +23,7 @@ class ImagingValue(models.Model):
 	subject = models.ForeignKey(Subject,related_name='imgval',on_delete=models.DO_NOTHING)
 	variable = models.ForeignKey(ImagingVariable,on_delete=models.DO_NOTHING)
 	value = models.DecimalField(decimal_places=5,max_digits=12,null=True)
+	path = models.CharField(max_length=100,null=True,default='.')
 	def __str__(self):
 		return self.subject.dns_id + '_' + self.variable.var_name
 

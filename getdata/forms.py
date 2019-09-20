@@ -7,7 +7,7 @@ from .models import Day1Variable, ImagingVariable, SNP #BatteryVariable,
 
 class SelectionForm(forms.Form):
     useGender = forms.BooleanField(required=False,label='Gender') #,initial='True'
-    useRace = forms.BooleanField(required=False,label='Race')
+    useRace = forms.BooleanField(required=False,label='Ethnicity')
     useAge = forms.BooleanField(required=False,label='Age')
 
 
