@@ -6,8 +6,13 @@
   {% block title %}<title>LoNG</title>{% endblock %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+  
+  <!-- Need these bootstraps for crispy forms -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
@@ -22,6 +27,21 @@
   <link rel="stylesheet" href="{% static 'css/getdata.css' %}">
 </head>
 
+<nav class="navbar navbar-expand-lg navbar-inverse navbar-custom">
+  <a class="navbar-brand" href="/longdb_dns">LoNG Database</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" href="/longdb_dns">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="/longdb_dns/getdata/">Get data</a>
+      <a class="nav-item nav-link" href="/longdb_dns/stats/">Simple stats</a>
+      <a class="nav-item nav-link" href="/longdb_dns/checkSNP">Check SNPs</a>
+    </div>
+  </div>
+</nav>
+<!-- 
 <nav class="navbar navbar-inverse navbar-custom">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -37,7 +57,7 @@
       <li><a href="/longdb_dns/logout">Logout</a></li>
     </ul>
   </div>
-</nav>
+</nav> -->
 
 <body>
 

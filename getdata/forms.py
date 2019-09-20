@@ -1,11 +1,15 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
+from crispy_forms.helper import FormHelper
+from crispy_forms import layout, bootstrap
+from django.utils.translation import ugettext_lazy as _, ugettext
 from .models import Day1Variable, ImagingVariable, SNP #BatteryVariable, 
 
 class SelectionForm(forms.Form):
     useGender = forms.BooleanField(required=False,label='Gender') #,initial='True'
     useRace = forms.BooleanField(required=False,label='Race')
     useAge = forms.BooleanField(required=False,label='Age')
+
 
 class SelectionForm_SNP(forms.Form):
     rsIDs = forms.CharField(widget=forms.Textarea(attrs={'rows':10,'cols':25}),label='',required=False) #widget=forms.Textarea,
@@ -23,6 +27,7 @@ class SelectionForm_bat_type(forms.Form):
     useSCORE = forms.BooleanField(required=False,label='Scored',initial='True')
     useREC = forms.BooleanField(required=False,label='Recoded')
     useRAW = forms.BooleanField(required=False,label='Raw')
+
 
 # # add this to allow bootstrap css
 # class LoginForm(AuthenticationForm):

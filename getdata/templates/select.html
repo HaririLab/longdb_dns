@@ -1,70 +1,135 @@
 {% extends "base_generic.html" %}
 {% load bootstrap %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-<h2>Select data to pull from database</h2>
+<br />
+<h4>Select data to pull from database</h4>
+
 <form action="" method="post">
     {% csrf_token %}
 <br />
-<h4>Demographics:</h4>
-    {{ form|bootstrap }}
-<br />
 
-<div>
-<h4>Day 1 Variables:</h4>
-  <div id="selectVar-container">
-      <select class="selectVar" name="day1_selections"  multiple="multiple" style="width:350px">
-            {% for var in options_day1 %}
-        <option>{{var}}</option>
-      {% endfor %}
-       </select>
-     </div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+        <h5>Basic Demographics:</h5>
+            <!-- {% crispy form %} -->
+    <div class="form-row">
+      <div class="form-group col-4 mb-0">
+        {{ form.useGender|as_crispy_field }}
+      </div>
+      <div class="form-group col-4 mb-0">
+        {{ form.useAge|as_crispy_field }}
+      </div>
+      <div class="form-group col-4 mb-0">
+        {{ form.useRace|as_crispy_field }}
+      </div>      
+    </div>
+
+
+        <br />
+      </div>
+      <div class="col-sm"></div>
+      <div class="col-sm"></div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <h5>Day 1 Variables:</h5>
+        <div id="selectVar-container">
+            <select class="selectVar" name="day1_selections"  multiple="multiple" style="width:350px">
+                  {% for var in options_day1 %}
+              <option>{{var}}</option>
+            {% endfor %}
+             </select>
+           </div>
+      </div>
+      <div class="col-sm"></div>
+      <div class="col-sm"></div>
+  </div>
 </div>
 
 <br />
 
-<div>
-<h4>Battery Variables:</h4>
-  <div id="selectVar-container">
-      <select class="selectVar" name="bat_selections"  multiple="multiple" style="width:350px">
-            {% for var in options_bat %}
-        <option>{{var}}</option>
-      {% endfor %}
-       </select>
-     </div>
-</div>
 
-<h4>Battery Variable Types:</h4>
-    {{ form_bat_type|bootstrap }}
-
-<br />
-
-<h4>Composite Variables:</h4>
-  <div id="selectVar-container">
-      <select class="selectVar" name="comp_selections"  multiple="multiple" style="width:350px">
-            {% for var in options_comp %}
-        <option>{{var}}</option>
-      {% endfor %}
-       </select>
-     </div>
-</div>
-
-<br />
-
-<div>
-<h4>FreeSurfer Variables:</h4>
-  <div id="selectVar-container">
-      <select class="selectVar" name="freesurfer_selections"  multiple="multiple" style="width:350px">
-            {% for group,sublist in options_freesurfer.items %}
-        <optgroup label="{{group}}"> <br>
-        {% for var in sublist %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h5>Battery Variables:</h5>
+      <div id="selectVar-container">
+        <select class="selectVar" name="bat_selections"  multiple="multiple" style="width:350px">
+              {% for var in options_bat %}
           <option>{{var}}</option>
-        {% endfor %}  
-      {% endfor %}
-       </select>     
-     </div>  
+        {% endfor %}
+         </select>
+      </div>
+    </div>
+    <div class="col">
+      <h5>Battery Variable Types:</h5>
+      <!-- {% crispy form_bat_type %} -->
+      <div class="form-row">
+      <div class="form-group col-4 mb-0">
+        {{ form_bat_type.useSCORE|as_crispy_field }}
+      </div>
+      <div class="form-group col-4 mb-0">
+        {{ form_bat_type.useREC|as_crispy_field }}
+      </div>
+      <div class="form-group col-4 mb-0">
+        {{ form_bat_type.useRAW|as_crispy_field }}
+      </div>      
+    </div>
+
+    </div>
+    <div class="col"></div>
+  </div>
+</div>
+
+
+<br />
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <h5>Composite Variables:</h5>
+        <div id="selectVar-container">
+            <select class="selectVar" name="comp_selections"  multiple="multiple" style="width:350px">
+                  {% for var in options_comp %}
+              <option>{{var}}</option>
+            {% endfor %}
+             </select>
+           </div>
+         </div>
+         <div class="col"></div>
+         <div class="col"></div>
+       </div>
 </div> 
- <!-- <h4>fMRI ROI Extracted Variables:</h4>
+
+<br />
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+        <h5>FreeSurfer Variables:</h5>
+          <div id="selectVar-container">
+            <select class="selectVar" name="freesurfer_selections"  multiple="multiple" style="width:350px">
+                    {% for group,sublist in options_freesurfer.items %}
+                <optgroup label="{{group}}"> <br>
+                {% for var in sublist %}
+                  <option>{{var}}</option>
+                {% endfor %}  
+              {% endfor %}
+            </select>     
+          </div>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+  </div>
+</div> 
+
+ <!-- <h5>fMRI ROI Extracted Variables:</h5>
   <div id="selectVar-container">
       <select class="selectVar" name="img_selections"  multiple="multiple" style="width:350px">
             {% for group,sublist in options_img.items %}
@@ -82,7 +147,7 @@
 <br />
 <br />
 
-<!-- <h4>SNPs:</h4>
+<!-- <h5>SNPs:</h5>
 <p>Enter rs id(s), e.g. rs1234 (one per line)</p>
     {{ form_snp }}
 <br />
@@ -90,7 +155,15 @@
 <br />
 -->
 
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
     <input type="submit" name="action" value="Preview" /> <input type="submit" name="action" value="Write CSV" /> 
+        </div>
+      <div class="col"></div>
+    <div class="col"></div>
+  </div>
+</div>
 
 </form>
 

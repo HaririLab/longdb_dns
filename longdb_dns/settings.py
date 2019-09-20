@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'getdata',
     'checkSNP',
     'stats',
+    'crispy_forms',    
 ]
 
 MIDDLEWARE = [
