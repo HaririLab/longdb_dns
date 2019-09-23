@@ -9,7 +9,7 @@ from functools import reduce
 from django.db.models import Q, Prefetch
 from getdata.more_functions import run_query #get_img_subvars, get_day1_subvars, get_bat_subvars
 
-from .models import Subject, ImagingVariable, ImagingValue, CompositeVariable, CompositeValue, FreeSurferVariable, BatteryVariable, BatteryValue, ImagingVariable, ImagingValue, Day1Variable, Day1Value
+from .models import Subject, BatteryVariable, Day1Variable, CompositeVariable, FreeSurferVariable, ImagingVariable
 from .forms import SelectionForm, SelectionForm_bat_type
 
 # def index(request):
@@ -87,24 +87,6 @@ def select(request):
 
     else:
 
-        # options_img={}
-        # for fullvar in ImagingVariable.objects.all():
-        #     ## names are in formation task_contrast_ROI.[L/R]
-        #     ### there must be a much more elegant way to do this, but too lazy to figure it out right now
-        #     # if fullvar.var_name[-6:]==".Clust.L" or fullvar.var_name[-6:]==".Clust.R":
-        #     #     var=fullvar.var_name[:-6]
-        #     # elif fullvar.var_name[-4:]==".Vox.L" or fullvar.var_name[-4:]==".Vox.R":
-        #     #     var=fullvar.var_name[:-4]
-        #     if fullvar.var_name[-2:]==".L" or fullvar.var_name[-2:]==".R":
-        #         var=fullvar.var_name[:-2]
-        #     else:
-        #         var=fullvar.var_name
-        #     vargroup=fullvar.vargroup
-        #     if vargroup not in options_img:
-        #         options_img[vargroup]=[]
-        #     if var not in options_img[vargroup]:
-        #         options_img[vargroup].append(var)
-
         fullnames=[v.var_name.split('_',1)[0] for v in BatteryVariable.objects.all()] # use split to pull only the measure name
         options_bat=sorted(set(fullnames)) # get unique entries (i.e. one for each measure)
 
@@ -145,7 +127,6 @@ def select(request):
                 options_img[vargroup]=[]
           if var not in options_img[vargroup]:
               options_img[vargroup].append(var)
-
 
     return render(request, 'select.html',{'form':form,'options_img':options_img,'options_freesurfer':options_freesurfer,'options_day1':options_day1,'form_bat_type':form_bat_type,'options_bat':options_bat,'options_freesurfer':options_freesurfer,'options_comp':options_comp})
 

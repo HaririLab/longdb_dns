@@ -13,7 +13,7 @@ from functools import reduce
 from django.db.models import Q, Prefetch
 from getdata.more_functions import get_subvars
 
-from getdata.models import Subject, SNP, Genotype, BatteryVariable, BatteryValue, ImagingVariable, ImagingValue, Day1Variable, Day1Value
+from getdata.models import Subject, SNP, Genotype, BatteryVariable, BatteryValue, Day1Variable, Day1Value
 from getdata.forms import SelectionForm, SelectionForm_SNP
 
 

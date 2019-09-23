@@ -1,4 +1,4 @@
-from .models import ImagingVariable, ImagingValue, FreeSurferVariable, FreeSurferValue, BatteryVariable, ImagingVariable, Day1Variable, ImagingValue, BatteryValue, Day1Value, CompositeVariable, CompositeValue
+from .models import BatteryVariable, Day1Variable, BatteryValue, Day1Value, CompositeVariable, CompositeValue, FreeSurferVariable, FreeSurferValue, ImagingVariable, ImagingValue
 from django.db.models import Q, Prefetch
 from functools import reduce
 
