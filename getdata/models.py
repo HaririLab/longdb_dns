@@ -6,6 +6,7 @@ class Subject(models.Model):
 	gender = models.CharField(max_length = 2,default='.')
 	race_battery = models.CharField(max_length = 2,default='.')
 	latino_battery = models.CharField(max_length = 2,default='.')
+	ethnicity = models.CharField(max_length = 10,default='.')
 	age = models.IntegerField(default=-1)
 	def getattribute(self,attr):
 		return getattr(self,attr)

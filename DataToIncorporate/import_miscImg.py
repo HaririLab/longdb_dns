@@ -7,9 +7,13 @@ import glob
 from decimal import Decimal
 from getdata.models import Subject, ImagingValue, ImagingVariable
 # files=glob.glob('/home6/haririla/public_html/longdb_dns/DataToIncorporate/Imaging/Free*.csv')
-file='/home6/haririla/public_html/longdb_dns/DataToIncorporate/DNS_DTI_ENIGMA_ROI_extracted.csv'
+#file='/home6/haririla/public_html/longdb_dns/DataToIncorporate/DNS_DTI_ENIGMA_ROI_extracted.csv'
+file='/home6/haririla/public_html/longdb_dns/DataToIncorporate/DNS_MRI_covariates_num.csv'
 
-task="DTI.ENIGMA.ROI"
+#task="DTI.FA.ENIGMA.ROI" #"Covariates"
+task="Covariates"
+string="no" # "yes" e.g. for paths and non-numeric covariates
+
 with open(file,newline='') as f:
 	reader=csv.reader(f)
 	row1=next(reader)
@@ -23,12 +27,17 @@ with open(file,newline='') as f:
 		for i in range(1,len(row1)):
 			var=row1[i]
 			# try:
-			r,c=ImagingVariable.objects.get_or_create(var_name=task+"_"+var,vargroup=task)
+			if(task=="Covariates"):
+				r,c=ImagingVariable.objects.get_or_create(var_name="Covs_"+var,vargroup=task)
+			elif(task=="DTI.FA.ENIGMA.ROI"):
+				r,c=ImagingVariable.objects.get_or_create(var_name="FA.ENIGMA_"+var,vargroup=task)
+			else:
+				r,c=ImagingVariable.objects.get_or_create(var_name=task+"_"+var,vargroup=task)
 			if(row[i]):
 				if(row[i]=="NA" or row[i]=="." ):
 					g=ImagingValue.objects.create(subject=s,variable=r,value=None)			
 				else:
-					if(task=="Paths"):
+					if(string=="yes"):
 						g=ImagingValue.objects.create(subject=s,variable=r,value=99999,path=row[i])			
 					else:
 						g=ImagingValue.objects.create(subject=s,variable=r,value=row[i])			

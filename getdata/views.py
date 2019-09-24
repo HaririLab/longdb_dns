@@ -30,7 +30,7 @@ def select(request):
             if form.cleaned_data['useGender']:
                 fields.append('gender')
             if form.cleaned_data['useRace']:
-                fields.append('race_battery')
+                fields.append('ethnicity')
             if form.cleaned_data['useAge']:
                 fields.append('age')
 
@@ -121,7 +121,7 @@ def select(request):
               var=fullvar.var_name
           vargroup=fullvar.vargroup
           if vargroup not in options_img:
-            if vargroup == "DTI.ENIGMA.ROI":
+            if vargroup == "DTI.FA.ENIGMA.ROI":
                 options_img[vargroup]=['ALL_REGIONS']
             else:
                 options_img[vargroup]=[]
