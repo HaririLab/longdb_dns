@@ -38,7 +38,8 @@
 <div class="container">
   <div class="row">
     <div class="col-sm">
-      <h5>Day 1 Variables:</h5>
+      <h5 style="margin-bottom:3px;">Day 1 Variables:</h5>
+      <p style="margin-bottom:3px; color:grey">(Clinical, Neuropsych, etc) </p>
         <div id="selectVar-container">
             <select class="selectVar" name="day1_selections"  multiple="multiple" style="width:350px">
                   {% for var in options_day1 %}
@@ -58,7 +59,8 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h5>Battery Variables:</h5>
+      <h5 style="margin-bottom:3px;">Battery Variables:</h5>
+      <p style="margin-bottom:3px; color:grey">(Self-report questionnaires, DDT, etc) </p>
       <div id="selectVar-container">
         <select class="selectVar" name="bat_selections"  multiple="multiple" style="width:350px">
               {% for var in options_bat %}
@@ -93,7 +95,8 @@
 <div class="container">
   <div class="row">
     <div class="col-sm">
-      <h5>Composite Variables:</h5>
+      <h5 style="margin-bottom:3px;">Composite Variables:</h5>
+      <p style="margin-bottom:3px; color:grey">(p, g, etc) </p>
         <div id="selectVar-container">
             <select class="selectVar" name="comp_selections"  multiple="multiple" style="width:350px">
                   {% for var in options_comp %}
@@ -112,7 +115,8 @@
 <div class="container">
   <div class="row">
     <div class="col-sm">
-        <h5>FreeSurfer Variables:</h5>
+      <h5 style="margin-bottom:3px;">Freesurfer Variables:</h5>
+      <p style="margin-bottom:3px; color:grey">(Volume, Cortical Thickness, Surface Area, etc) </p>
           <div id="selectVar-container">
             <select class="selectVar" name="freesurfer_selections"  multiple="multiple" style="width:350px">
                     {% for group,sublist in options_freesurfer.items %}
@@ -134,7 +138,8 @@
 <div class="container">
   <div class="row">
     <div class="col-sm">
-        <h5>Additional Imaging Variables:</h5>
+      <h5 style="margin-bottom:3px;">Additional Imaging Variables:</h5>
+      <p style="margin-bottom:3px; color:grey">(DTI, Paths, Covariates, etc) </p>
           <div id="selectVar-container">
             <select class="selectVar" name="img_selections"  multiple="multiple" style="width:350px">
                     {% for group,sublist in options_img.items %}
