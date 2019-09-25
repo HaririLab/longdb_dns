@@ -108,7 +108,7 @@ def select(request):
               var=fullvar.var_name
           vargroup=fullvar.vargroup
           if vargroup not in options_freesurfer:
-              options_freesurfer[vargroup]=['ALL_REGIONS'] # initialize var group, with ALL_REGIONS at the top
+              options_freesurfer[vargroup]=[fullvar.var_name.split('.',1)[0]+'_ALL_REGIONS'] # initialize var group, with ALL_REGIONS at the top
           if var not in options_freesurfer[vargroup]:
               options_freesurfer[vargroup].append(var)
     
@@ -122,7 +122,7 @@ def select(request):
           vargroup=fullvar.vargroup
           if vargroup not in options_img:
             if vargroup == "DTI.FA.ENIGMA.ROI":
-                options_img[vargroup]=['ALL_REGIONS']
+                options_img[vargroup]=['FA.ENIGMA_ALL_REGIONS']
             else:
                 options_img[vargroup]=[]
           if var not in options_img[vargroup]:
