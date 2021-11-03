@@ -9,10 +9,16 @@ h1 {
 }
 
 .navbar-custom {
-    color: #FFFFFF;
     background-color: #000080;
 }
 
+.nav-link {
+    color: #FFFFFF;
+}
+
+.nav-link:hover {
+    color: grey;
+}
 /*fiddling with this to see if I could get checkboxes closer together*/
 /*.form-group {
     margin:0px 0px;

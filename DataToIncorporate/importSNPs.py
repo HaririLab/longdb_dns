@@ -8,7 +8,7 @@ def main():
 	snps=SNP.objects.filter(chr_id=1)
 	genos=[]
 	t1=time.time()
-	with open('/Users/Annchen/DjangoProjects/longtest/chr1_5subs.csv',newline='') as f:
+	with open('/home6/haririla/public_html/longtest/chr1_5subs.csv',newline='') as f:
 		reader=csv.reader(f)
 		row1=next(reader)
 		for row in reader:

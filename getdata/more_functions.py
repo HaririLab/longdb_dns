@@ -1,6 +1,7 @@
-from .models import ImagingVariable, ImagingValue, FreeSurferVariable, FreeSurferValue, BatteryVariable, ImagingVariable, Day1Variable, ImagingValue, BatteryValue, Day1Value, CompositeVariable, CompositeValue
+from .models import BatteryVariable, Day1Variable, BatteryValue, Day1Value, CompositeVariable, CompositeValue, FreeSurferVariable, FreeSurferValue, ImagingVariable, ImagingValue
 from django.db.models import Q, Prefetch
 from functools import reduce
+import re
 
 ### edited to include different batvar types (RAW, REC) and remove var_type overlap with BatteryVariable field
 # Takes the name of an imaging variable in the form of Task_Contrast_ROI
@@ -23,7 +24,7 @@ def get_subvars(var,var_cat,bat_type):
         return
     varlist=[]
     for v in allvars:
-        if var=="ALL_REGIONS" or v.var_name.startswith(var):
+        if re.match(re.compile(v.var_name.split('.',1)[0]+".*ALL_REGIONS"),var) or v.var_name.startswith(var):
             varlist.append(v.var_name)
     return varlist
 

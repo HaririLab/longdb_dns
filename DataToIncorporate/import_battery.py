@@ -7,7 +7,7 @@ from getdata.models import Subject, BatteryVariable, BatteryValue
 from itertools import islice
 
 # read battery data from additional file
-with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/DNS_DDT.csv',newline='') as f:
+with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/DNS_DDT.csv',newline='') as f:
 	reader=csv.reader(f)
 	row1=next(reader)
 	print(row1[0])
@@ -31,7 +31,7 @@ with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/DNS_DDT.cs
 		s.save();
 
 # # read battery data from main file
-# with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/BATTERY_RAW.csv',newline='') as f:
+# with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/BATTERY_RAW.csv',newline='') as f:
 # 	reader=csv.reader(f)
 # 	row1=next(reader)
 # 	print(row1[0])
@@ -99,7 +99,7 @@ with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/DNS_DDT.cs
 # from decimal import Decimal
 # from getdata.models import Subject, ImagingVariable, ImagingValue
 # task="Cards"
-# with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/cards.csv',newline='') as f:
+# with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/cards.csv',newline='') as f:
 # 	reader=csv.reader(f)
 # 	row1=next(reader)
 # 	for row in reader:
@@ -118,7 +118,7 @@ with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/DNS_DDT.cs
 # import datetime, csv
 # from decimal import Decimal
 # from getdata.models import Subject, Day1Variable, Day1Value
-# with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/day1.csv',newline='') as f:
+# with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/day1.csv',newline='') as f:
 # 	reader=csv.reader(f)
 # 	row1=next(reader)
 # 	for row in reader:
@@ -135,7 +135,7 @@ with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/DNS_DDT.cs
 # # this will probably taken an hour or so
 # import csv, math
 # from getdata.models import SNP, Subject, Genotype
-# with open('/Users/Annchen/DjangoProjects/longdb_dns/DataToIncorporate/plink.frq.csv',newline='') as f:
+# with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/plink.frq.csv',newline='') as f:
 # 	reader=csv.reader(f)
 # 	row1=next(reader)
 # 	for row in reader:

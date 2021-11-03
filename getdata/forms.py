@@ -3,7 +3,7 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms import layout, bootstrap
 from django.utils.translation import ugettext_lazy as _, ugettext
-from .models import Day1Variable, ImagingVariable, SNP #BatteryVariable, 
+from .models import Day1Variable, SNP #BatteryVariable, 
 
 class SelectionForm(forms.Form):
     useGender = forms.BooleanField(required=False,label='Gender') #,initial='True'

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Subject, ImagingValue#, BatteryValue, FreeSurferValue, FreeSurferVariable,ImagingVariable,BatteryVariable,Day1Value,Day1Variable
+from .models import Subject#, ImagingValue#, BatteryValue, FreeSurferValue, FreeSurferVariable,ImagingVariable,BatteryVariable,Day1Value,Day1Variable
 
 # admin.site.register(Subject)
 # # admin.site.register(BatteryValue)
