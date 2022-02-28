@@ -5,7 +5,7 @@
 # # this will probably taken an hour or so
 # import csv, math
 # from getdata.models import SNP, Subject, Genotype
-# with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/plink.frq.csv',newline='') as f:
+# with open('/home/rapiduser/longdb_dns/DataToIncorporate/plink.frq.csv',newline='') as f:
 # 	reader=csv.reader(f)
 # 	row1=next(reader)
 # 	for row in reader:
@@ -46,7 +46,7 @@
 # from decimal import Decimal
 # from getdata.models import Subject, BatteryVariable, BatteryValue
 # from itertools import islice
-# with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/BATTERY_SCORED_formatted.csv',newline='') as f:
+# with open('/home/rapiduser/longdb_dns/DataToIncorporate/BATTERY_SCORED_formatted.csv',newline='') as f:
 # 	reader=csv.reader(f)
 # 	row1=next(reader)
 # 	for row in reader:
@@ -89,7 +89,7 @@
 # from decimal import Decimal
 # from getdata.models import Subject, ImagingVariable, ImagingValue
 # task="Cards"
-# with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/cards.csv',newline='') as f:
+# with open('/home/rapiduser/longdb_dns/DataToIncorporate/cards.csv',newline='') as f:
 # 	reader=csv.reader(f)
 # 	row1=next(reader)
 # 	for row in reader:
@@ -108,7 +108,7 @@
 # import datetime, csv
 # from decimal import Decimal
 # from getdata.models import Subject, Day1Variable, Day1Value
-# with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/day1.csv',newline='') as f:
+# with open('/home/rapiduser/longdb_dns/DataToIncorporate/day1.csv',newline='') as f:
 # 	reader=csv.reader(f)
 # 	row1=next(reader)
 # 	for row in reader:

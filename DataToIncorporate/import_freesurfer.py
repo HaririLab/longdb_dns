@@ -6,7 +6,7 @@ import datetime, csv
 import glob
 from decimal import Decimal
 from getdata.models import Subject, FreeSurferValue, FreeSurferVariable
-files=glob.glob('/home6/haririla/public_html/longdb_dns/DataToIncorporate/FreeSurfer/Free*.csv')
+files=glob.glob('/home/rapiduser/longdb_dns/DataToIncorporate/FreeSurfer/Free*.csv')
 for file in files:
 	skipfile=0
 	print(file)
@@ -16,11 +16,11 @@ for file in files:
 	with open(file,newline='') as f:
 		reader=csv.reader(f)
 		row1=next(reader)
-		ct=0;
+		# ct=0;
 		for row in reader:
-			ct=ct+1
-			if ct<1000:
-				continue				
+			# ct=ct+1
+			# if ct>999:
+			# 	continue				
 			if skipfile==1:
 				break
 			print(row[0])
@@ -46,7 +46,7 @@ for file in files:
 						else:
 							g=FreeSurferValue.objects.create(subject=s,variable=r,value=row[i])			
 					else:
-						g=FreeSurferValue.objects.create(subject=s,variable=r,value=None)		
+						g=FreeSurferValue.objects.create(subject=s,variable=r,value=None)	
 				except:
 					print("Error with "+s.dns_id+" "+roi)
 

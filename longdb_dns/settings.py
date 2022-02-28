@@ -16,6 +16,10 @@ from .settings_secret import * # for sensitive information
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# ARK added 11/29/21, not actually sure if I need this since I solved the issue I was having with CSS loading by edits to the apache http.conf file
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "getdata/static"),
+]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -26,7 +30,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 
-ALLOWED_HOSTS = ['152.3.43.224','152.3.88.208','127.0.0.1','10.191.27.255','www.haririlab.com','haririlab.com']
+ALLOWED_HOSTS = ['152.3.43.224','152.3.88.208','127.0.0.1','10.191.27.255','www.haririlab.com','haririlab.com','67.159.93.32','rapid-1501.vm.duke.edu']
 
 
 # Application definition
@@ -67,10 +71,10 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            'getdata/templates',
-            'stats/templates',
-            'checkSNP/templates',
-            'templates',
+            '/home/rapiduser/longdb_dns/getdata/templates',
+            '/home/rapiduser/longdb_dns/stats/templates',
+            '/home/rapiduser/longdb_dns/checkSNP/templates',
+            '/home/rapiduser/longdb_dns/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

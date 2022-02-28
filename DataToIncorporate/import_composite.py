@@ -6,7 +6,7 @@ from decimal import Decimal
 from getdata.models import Subject, CompositeVariable, CompositeValue
 from itertools import islice
 
-with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/DNS_compositeScores.csv',newline='') as f:
+with open('/home/rapiduser/longdb_dns/DataToIncorporate/DNS_compositeScores.csv',newline='') as f:
 	reader=csv.reader(f)
 	row1=next(reader)
 	print(row1[0])

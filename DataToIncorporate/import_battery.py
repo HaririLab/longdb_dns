@@ -1,67 +1,50 @@
 # ## run these from within a django shell:
 # ## python3 manage.py shell < DataToIncorporate/import_battery.py
 
+###!!! Age and gender are in multiple files - if run this again might want to remove so don't get added as variables!!! 
+## (since they are part of "Subject" model)
+
 import csv, datetime
 from decimal import Decimal
 from getdata.models import Subject, BatteryVariable, BatteryValue
 from itertools import islice
 
-# read battery data from additional file
-with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/DNS_DDT.csv',newline='') as f:
-	reader=csv.reader(f)
-	row1=next(reader)
-	print(row1[0])
-	for row in reader:
-	# for row in islice(reader,977,None): # for starting in the middle
-		print(row[0])
-		s,c=Subject.objects.get_or_create(dns_id=row[0])
-		for i in range(1,len(row1)):
-			name_str=row1[i]
-			name_list=name_str.split("_")
-			# r,c=BatteryVariable.objects.get_or_create(var_name=name_str,var_type='RAW')
-			if name_list[-1] == 'RAW' or name_list[-1] == 'REC':
-				r,c=BatteryVariable.objects.get_or_create(var_name=name_str,var_type=name_list[-1])
-			else:
-				r,c=BatteryVariable.objects.get_or_create(var_name=name_str,var_type='.')
-			# add value to db if not empty
-			if row[i].strip(' "') and row[i] != '.':
-				v=BatteryValue.objects.create(subject=s,variable=r,value=Decimal(row[i].strip(' "')))
-			else:
-				v=BatteryValue.objects.create(subject=s,variable=r,value=None)
-		s.save();
-
-# # read battery data from main file
-# with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/BATTERY_RAW.csv',newline='') as f:
-# 	reader=csv.reader(f)
-# 	row1=next(reader)
-# 	print(row1[0])
-# 	for row in reader:
-# 	# for row in islice(reader,977,None): # for starting in the middle
-# 		print(row[0])
-# 		s,c=Subject.objects.get_or_create(dns_id=row[0])
-# 		if row[1] == '1':
-# 			s.gender='M';
-# 		elif row[1] =='2':
-# 			s.gender='F';
-# 		else:
-# 			continue
-# 		s.race_battery=row[2];
-# 		s.latino_battery=row[3];
-# 		s.age=row[4];
-# 		for i in range(1,len(row1)):
-# 			name_str=row1[i]
-# 			name_list=name_str.split("_")
-# 			# r,c=BatteryVariable.objects.get_or_create(var_name=name_str,var_type='RAW')
-# 			if name_list[-1] == 'RAW' or name_list[-1] == 'REC':
-# 				r,c=BatteryVariable.objects.get_or_create(var_name=name_str,var_type=name_list[-1])
-# 			else:
-# 				r,c=BatteryVariable.objects.get_or_create(var_name=name_str,var_type='.')
-# 			# add value to db if not empty
-# 			if row[i].strip(' "'):
-# 				v=BatteryValue.objects.create(subject=s,variable=r,value=Decimal(row[i].strip(' "')))
-# 			else:
-# 				v=BatteryValue.objects.create(subject=s,variable=r,value=None)
-# 		s.save();
+# read battery data 
+for filename in ("BATTERY_REC",""):
+# for filename in ("BATTERY_SCORED_formatted", "DNS_DDT", "BATTERY_RAW", "BATTERY_REC"):
+	print("******" + filename + "******")
+	with open('/home/rapiduser/longdb_dns/DataToIncorporate/'+filename+'.csv',newline='') as f:
+		reader=csv.reader(f)
+		row1=next(reader)
+		print(row1[0])
+		for row in reader:
+		# for row in islice(reader,977,None): # for starting in the middle
+			print(row[0])
+			s,c=Subject.objects.get_or_create(dns_id=row[0])
+			if filename == "BATTERY_SCORED_formatted":
+				if row[1] == '1':
+					s.gender='M';
+				elif row[1] =='2':
+					s.gender='F';
+				else:
+					continue
+				s.race_battery=row[2];
+				s.latino_battery=row[3];
+				s.age=row[4];
+			for i in range(1,len(row1)):
+				name_str=row1[i]
+				name_list=name_str.split("_")
+				# r,c=BatteryVariable.objects.get_or_create(var_name=name_str,var_type='RAW')
+				if name_list[-1] == 'RAW' or name_list[-1] == 'REC':
+					r,c=BatteryVariable.objects.get_or_create(var_name=name_str,var_type=name_list[-1])
+				else:
+					r,c=BatteryVariable.objects.get_or_create(var_name=name_str,var_type='.')
+				# add value to db if not empty
+				if row[i].strip(' "') and row[i] != '.':
+					v=BatteryValue.objects.create(subject=s,variable=r,value=Decimal(row[i].strip(' "')))
+				else:
+					v=BatteryValue.objects.create(subject=s,variable=r,value=None)
+			s.save();
 
 # # changing variable name so that it doesn't conflict with RAW/REC naming convention
 # newvar, created=BatteryVariable.objects.get_or_create(var_name='EDI_Bul_unscaled',var_type='.')
@@ -99,7 +82,7 @@ with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/DNS_DDT.csv'
 # from decimal import Decimal
 # from getdata.models import Subject, ImagingVariable, ImagingValue
 # task="Cards"
-# with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/cards.csv',newline='') as f:
+# with open('/home/rapiduser/longdb_dns/DataToIncorporate/cards.csv',newline='') as f:
 # 	reader=csv.reader(f)
 # 	row1=next(reader)
 # 	for row in reader:
@@ -113,29 +96,13 @@ with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/DNS_DDT.csv'
 # 			else:
 # 				g=ImagingValue.objects.create(subject=s,variable=r,value=None)
 
-# # Day 1 data
-# ## ##Variable names (column headings) MUST be of the format Task_Contrast_ROI!!!!!!!!
-# import datetime, csv
-# from decimal import Decimal
-# from getdata.models import Subject, Day1Variable, Day1Value
-# with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/day1.csv',newline='') as f:
-# 	reader=csv.reader(f)
-# 	row1=next(reader)
-# 	for row in reader:
-# 		print(row[0])
-# 		s,c=Subject.objects.get_or_create(dns_id=row[0])
-# 		for i in range(1,len(row1)):
-# 			r,c=Day1Variable.objects.get_or_create(var_name=row1[i])
-# 			if(row[i]):
-# 				g=Day1Value.objects.create(subject=s,variable=r,value=row[i])
-# 			else:
-# 				g=Day1Value.objects.create(subject=s,variable=r,value=None)
+
 
 # # SNP details
 # # this will probably taken an hour or so
 # import csv, math
 # from getdata.models import SNP, Subject, Genotype
-# with open('/home6/haririla/public_html/longdb_dns/DataToIncorporate/plink.frq.csv',newline='') as f:
+# with open('/home/rapiduser/longdb_dns/DataToIncorporate/plink.frq.csv',newline='') as f:
 # 	reader=csv.reader(f)
 # 	row1=next(reader)
 # 	for row in reader:
